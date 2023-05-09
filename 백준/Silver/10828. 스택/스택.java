@@ -1,93 +1,59 @@
-
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 
-
-
-
-
-	
 public class Main {
+    public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	StringTokenizer str;
+    	int N = Integer.parseInt(br.readLine());
+    	
+    	Stack<Integer> stack = new Stack<>();
+    	
+    	for(int i=0; i<N; i++) {
+    		str = new StringTokenizer(br.readLine());
+        	switch(str.nextToken()) {
+        	case "push":
+        		stack.push(Integer.parseInt(str.nextToken()));
+        		break;
+        	case "pop":
+        		if(stack.empty()) {
+        			bw.write("-1");
+        			bw.newLine();
+        		}else {
+        			int tmp = stack.peek();
+        			stack.pop();
+        			bw.write(String.valueOf(tmp));
+        			bw.newLine();
+        		}
+        		break;
+        	case "size":
+        		bw.write(String.valueOf(stack.size()));
+        		bw.newLine();
+        		break;
+        	case "empty":
+        		if(stack.empty()) {
+        			bw.write("1");
+        		}else {
+        			bw.write("0");
+        		}
+        		bw.newLine();
+        		break;
+        	case "top":
+        		if(stack.empty()) {
+        			bw.write("-1");
+        		}else {
+        			bw.write(String.valueOf(stack.peek()));
+        		}
+        		bw.newLine();
+        		break;
+        	}
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N = Integer.parseInt(br.readLine());
-		myStack st = new myStack(N);
-		StringTokenizer str;
-		
-		for(int i=0; i<N; i++) {
-			str = new StringTokenizer(br.readLine());
-			switch(str.nextToken()){
-			case "push" :
-				st.push(Integer.parseInt(str.nextToken()));
-				break;
-			case "pop" :
-				System.out.println(st.pop());
-				break;
-			case "size" :
-				System.out.println(st.size());
-				break;
-			case "empty" :
-				System.out.println(st.empty());
-				break;
-			case "top" :
-				System.out.println(st.top());
-				break;
-			}
-			
-		}
-		
-	}
-}
-
-
-
-interface mymyStack{
-	public void push(int x);
-	public int pop();
-	public int size();
-	public int empty();
-	public int top();
-}
-
-
-class myStack implements mymyStack{
-	private int [] stack;
-	private int topIndex;
-	
-	public myStack(int N) {
-		stack = new int[N];
-		topIndex = -1;
-	}
-	
-	public void push(int x) {
-		stack[++topIndex]=x;
-	}
-	public int pop() {
-		if(topIndex==-1) {
-			return -1;
-		}else {
-		return stack[topIndex--];
-		}
-	}
-	public int size() {
-		return topIndex+1;
-	}
-	public int empty() {
-		if(topIndex==-1) {
-			return 1;
-		} else {
-			return 0;
-		}
-	}
-	public int top() {
-		if(topIndex==-1) {
-			return -1;
-		}else {
-		return stack[topIndex];
-		}
-	}
+    	}
+    	
+    	bw.flush();
+    	bw.close();
+    	
+    }
 }
