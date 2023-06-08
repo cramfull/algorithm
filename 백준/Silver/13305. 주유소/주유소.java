@@ -7,16 +7,16 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		Scanner scn = new Scanner(System.in);
 		int N = scn.nextInt();
-		int Min = 0;
+		long Min = 0;
 		
-		int km []= new int[N-1]; 
+		long km []= new long[N-1]; 
 		for(int i=0; i<N-1; i++) {
-			km[i] = scn.nextInt();
+			km[i] = scn.nextLong();
 		}
 		
-		int cost [] = new int[N];
+		long cost [] = new long[N];
 		for(int i=0; i<N; i++) {
-			cost[i] = scn.nextInt();
+			cost[i] = scn.nextLong();
 		}
 		for(int i=0; i<N-1; i++) {
 			if(cost[i]<cost[i+1]) {
