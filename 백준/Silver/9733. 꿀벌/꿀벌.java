@@ -18,8 +18,8 @@ public class Main {
 		
 		StringTokenizer st;
 		int total =0;
-		String input = br.readLine();
-		while (input!=null&&!input.equals("")) {
+		String input;
+		while ((input=br.readLine())!=null && !input.equals("")) {
 			st = new StringTokenizer(input);
 			while(st.hasMoreTokens()) {
 				total++;
@@ -28,7 +28,6 @@ public class Main {
 					map.put(s, map.get(s)+1);
 				}
 			}
-			input = br.readLine();
 		}
 		
 		
