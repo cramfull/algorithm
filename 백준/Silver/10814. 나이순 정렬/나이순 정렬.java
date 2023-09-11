@@ -1,6 +1,5 @@
 
 import java.io.*;
-
 import java.util.*;
 
 
@@ -20,10 +19,15 @@ public class Main {
 		
 	
 		Arrays.sort(arr);
-
-		for(int i=0; i<arr.length; i++) {
-			System.out.println(arr[i].age+" "+arr[i].name);
+		StringBuilder sb = new StringBuilder();
+		
+		
+		for(int i=0; i<N; i++) {
+			sb.append(arr[i].age).append(" ").append(arr[i].name).append("\n");
 		}
+		bw.write(sb.toString());
+		bw.flush();
+		bw.close();
 		
 	}
 	
