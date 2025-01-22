@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.math.*;
 import java.util.*;
@@ -51,9 +50,7 @@ public class Main {
     		int nx = now.x + dx[i];
     		int ny = now.y + dy[i];
     		if(nx>=0 && nx<N && ny>=0 && ny<N && graph[nx][ny]==1 && !visited[nx][ny]) {
-    			visited[nx][ny]=true;
     			dfs(nx,ny);
-    			
     		}
     	}
     	
