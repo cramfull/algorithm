@@ -28,6 +28,7 @@ public class Main {
     		for(int j=0;j<N;j++) {
     	    	count =0;
     			if(graph[i][j]==1 && !visited[i][j]) {
+                    visited[i][j]=true;
     				dfs(i,j);
     				arr.add(count);
     				result++;
@@ -44,12 +45,12 @@ public class Main {
     }
     static void dfs(int x, int y) {
     	Point now = new Point(x,y);
-    	visited[x][y]=true;
     	count++;
     	for(int i=0;i<4;i++) {
     		int nx = now.x + dx[i];
     		int ny = now.y + dy[i];
     		if(nx>=0 && nx<N && ny>=0 && ny<N && graph[nx][ny]==1 && !visited[nx][ny]) {
+                visited[nx][ny]=true;
     			dfs(nx,ny);
     		}
     	}
