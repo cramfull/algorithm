@@ -1,0 +1,17 @@
+-- 리뷰 가장 많이 작성한 회원의 리뷰들 조회
+--  회원 이름, 리뷰 텍스트, 리뷰 작성일
+-- 리뷰 작성일을 ASC, 리뷰 텍스트 ASC
+
+SET @name = (SELECT MEMBER_ID
+            FROM    REST_REVIEW
+             GROUP BY MEMBER_ID
+             HAVING COUNT(MEMBER_ID)
+             ORDER BY COUNT(MEMBER_ID) DESC
+             LIMIT 1);
+
+SELECT M.MEMBER_NAME, R.REVIEW_TEXT, DATE_FORMAT(R.REVIEW_DATE, '%Y-%m-%d') AS REVIEW_DATE
+FROM MEMBER_PROFILE M
+JOIN REST_REVIEW R
+ON M.MEMBER_ID = R.MEMBER_ID
+WHERE M.MEMBER_ID = @name
+ORDER BY DATE_FORMAT(R.REVIEW_DATE, '%Y-%m-%d'), R.REVIEW_TEXT
