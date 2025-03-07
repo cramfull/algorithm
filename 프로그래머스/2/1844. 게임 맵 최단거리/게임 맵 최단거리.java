@@ -5,10 +5,10 @@ import java.util.*;
 
 class Solution {
     
-    static int [] dx = new int[]{-1, 1, 0, 0};
-    static int [] dy = new int[]{0, 0, -1, 1};
+    int [] dx = new int[]{-1, 1, 0, 0};
+    int [] dy = new int[]{0, 0, -1, 1};
     
-    static int [][] distance ;
+    int [][] distance ;
     
     public int solution(int[][] maps) {
         int answer = 0;
@@ -44,7 +44,7 @@ class Solution {
     
     
     
-    static class Point{
+    class Point{
         int x;
         int y;
         public Point(int x, int y){
