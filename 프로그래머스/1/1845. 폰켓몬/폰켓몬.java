@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 class Solution {
     public int solution(int[] nums) {
@@ -17,16 +18,11 @@ class Solution {
     }
     
     public static int solve(int[] nums){
-        Set<Integer> set = new HashSet<>();
-        for(int num : nums){
-            set.add(num);
-        }
+        Set<Integer> set = Arrays.stream(nums).boxed().collect(Collectors.toCollection(HashSet::new));
+        
         int size = set.size();
         int length = nums.length/2;
-        if(size >= length){
-            return length;
-        }else{
-            return size;
-        }
+        
+        return (size >= length)? length : size;
     }
 }
