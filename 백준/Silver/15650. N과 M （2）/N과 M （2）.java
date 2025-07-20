@@ -1,49 +1,39 @@
 
-
-import java.io.*;
-import java.math.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
-	
-	static int [] arr;
-	static int N,M;
-	
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
-		
-		
-		arr = new int[M];
-		
-		dfs(1,0);
-		
-		
-		
-		
-	}
-	
-	static void dfs(int at, int depth) {
-		
-		if(depth == M) {
-			for(int val : arr) {
-				System.out.print(val+" ");
-			}
-			System.out.println();
-			return;
-		}
-		
-		for(int i=at; i<=N; i++) {
-			arr[depth] = i;
-			dfs(i+1, depth+1);
-		}
-		
-	}
-	
-	
-	
+
+    static int N, M;
+    static int [] arr;
+    static boolean [] visited;
+    static StringBuilder sb;
+
+    public static void main(String [] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer str = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(str.nextToken());
+        M = Integer.parseInt(str.nextToken());
+        arr = new int[M];
+        visited = new boolean[M];
+        sb = new StringBuilder();
+
+        backTracking(0, 1);
+        System.out.println(sb.toString());
+    }
+
+    static void backTracking(int depth, int now) {
+        if(depth == M){
+            for (int i = 0; i < arr.length; i++) {
+                sb.append(arr[i]).append(" ");
+            }
+            sb.append("\n");
+            return;
+        }
+
+        for (int i = now; i <= N; i++) {
+            arr[depth] = i;
+            backTracking(depth+1, i+1);
+        }
+    }
 }
