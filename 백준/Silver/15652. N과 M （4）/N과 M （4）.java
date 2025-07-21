@@ -1,50 +1,37 @@
-
-import java.io.*;
-import java.math.*;
+	
 import java.util.*;
-import java.util.Map.Entry;
-
-
+import java.io.*;
 
 public class Main {
 	
+	static int N,M;
 	static int [] arr;
-	static StringBuilder sb = new StringBuilder();
-	public static void main(String[] args) throws IOException {
+	static StringBuilder sb;
+	
+	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer str = new StringTokenizer(br.readLine());
+		N = Integer.parseInt(str.nextToken());
+		M = Integer.parseInt(str.nextToken());
+		arr = new int[M];
+		sb = new StringBuilder();
 		
-		int N = Integer.parseInt(str.nextToken());
-		int M = Integer.parseInt(str.nextToken());
-		
-		arr = new int[M+1];
-		
-		
-		backtracking(1, 0, N, M);
+		backTracking(0,1);
 		System.out.println(sb.toString());
-		
-		
-		
 	}
-	
-	static void backtracking(int at, int x, int N, int M) {
-		if(x==M) {
-			for(int i=0;i<M;i++) {
-				sb.append(arr[i]+" ");
+
+	static void backTracking(int depth, int now) {
+		if(depth == M) {
+			for(int i=0;i<arr.length;i++) {
+				sb.append(arr[i]).append(" ");
 			}
 			sb.append("\n");
 			return;
-		}else {
-			for(int i=at; i<=N;i++) {
-				arr[x] = i;
-				backtracking(i, x+1, N, M);
-				
-				
-			}
-			
-			
+		}
+		
+		for(int i=now; i<=N; i++) {
+			arr[depth] = i;
+			backTracking(depth+1, i);
 		}
 	}
-	
-	
 }
