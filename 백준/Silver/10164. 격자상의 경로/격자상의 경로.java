@@ -19,13 +19,21 @@ public class Main {
         if (K == 0) {
             result = getResult(1, 1, N, M);
         }else{
-            int toMiddle = getResult(1, 1, K/M+1, K%M);
-            int toEnd = getResult(K/M+1, K%M, N,M);
+            int nx = 0;
+            int ny = 0;
+            if(K%M!=0){
+                nx = K/M+1;
+                ny = K%M;
+            }
+            else{
+                nx = K/M;
+                ny = M;
+            }
+            getResult(1, 1, nx, ny);
+            int toEnd = getResult(nx, ny, N,M);
 
             result = toEnd;
         }
-
-
         System.out.println(result);
     }
 
