@@ -20,22 +20,20 @@ public class Main {
 		}
 		
 		arr = new int[N];
-		
-		
-		
 		arr[weight[0]]=1;
 		
-		for(int i=2;i<=N;i++) {
+		for(int i=1;i<N;i++) {
 			idx = 0;
-			moveIndexUntilBlank(weight[i-1]);
+			moveIndexUntilBlank(weight[i]);
 			moveIndexUntilNextBlanck();
-			arr[idx] = i;
+			arr[idx] = i+1;
 		}
 		
+		StringBuilder sb = new StringBuilder();
 		for(int i=0;i<N;i++) {
-			System.out.print(arr[i]+" ");
+			sb.append(arr[i]).append(" ");
 		}
-		
+		System.out.println(sb.toString());
 	}
 	
 	static void moveIndexUntilBlank(int blankTotal) {
