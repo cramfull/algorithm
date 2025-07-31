@@ -1,4 +1,3 @@
-
 import java.util.*;
 import java.io.*;
 
@@ -20,19 +19,13 @@ public class Main {
 		}
 		
 		// Solve
-		
-		// 변수
-		// 큐, 현재 총 무게, 시간 
-		
-		// empty 아닌 경우 peek 시간==0 빼기
-		// 현재 총 무게 확인, 출발 가능시 추가 
-		
-		// 전체 큐 내 시간 감소 
-		
+		// 큐, 트럭 인덱스, 현재 총 무게, 시간 
 		Queue<Truck> bridge = new LinkedList<>();
 		int truckIdx = 0;
 		int weightSum = 0;
 		int time = 0;
+		
+		// 첫 트럭 넣기
 		Truck firstTruck = new Truck(bridgeLength, trucks[truckIdx++]);
 		bridge.offer(firstTruck);
 		weightSum += firstTruck.weight;
@@ -40,20 +33,21 @@ public class Main {
 		while(!bridge.isEmpty()) {
 			time++;
 			
+			// empty 아닌 경우 peek 시간==0 빼기
 			if(bridge.peek().remainingTime==0) {
 				Truck passedTruck = bridge.poll();
 				weightSum -= passedTruck.weight;
 			}
 			
-			if(truckIdx<N) {
-				while(bridgeMaximumWeight >= weightSum+trucks[truckIdx]) {
-					Truck enterTruck = new Truck(bridgeLength, trucks[truckIdx++]);
-					bridge.offer(enterTruck);
-					weightSum += enterTruck.weight;
-					break;
-				}
+			// 현재 총 무게 확인, 출발 가능시 추가 
+			while(truckIdx<N && bridgeMaximumWeight >= weightSum+trucks[truckIdx]) {
+				Truck enterTruck = new Truck(bridgeLength, trucks[truckIdx++]);
+				bridge.offer(enterTruck);
+				weightSum += enterTruck.weight;
+				break;
 			}
 			
+			// 전체 큐 내 시간 감소 
 			Iterator<Truck> it = bridge.iterator();
 			while(it.hasNext()) {
 				it.next().decreseTime();
