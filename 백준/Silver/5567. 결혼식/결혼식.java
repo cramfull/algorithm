@@ -54,8 +54,12 @@ public class Main {
 				
 				visited[nxt] = true;
 				dist[nxt] = dist[now]+1;
-				if(dist[nxt]<=2) totalCount++;
-				que.offer(nxt);
+				if(dist[nxt]<=2) {
+					totalCount++;
+					que.offer(nxt);
+					continue;
+				}
+				return;
 			}
 		}
 	}
