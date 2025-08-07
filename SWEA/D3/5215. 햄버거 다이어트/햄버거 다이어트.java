@@ -58,7 +58,7 @@ class Solution
 			
 			powerSet(ingredients, kcals, visited, N, L, 0);
 
-			sb.append(String.format("#%d %d", tc, result)).append("\n");
+			sb.append("#").append(tc).append(" ").append(result).append("\n");
 			
 		}
 		System.out.println(sb.toString());
