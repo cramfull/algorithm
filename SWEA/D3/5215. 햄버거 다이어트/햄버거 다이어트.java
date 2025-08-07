@@ -34,7 +34,7 @@ import java.io.*;
  */
 class Solution
 {
-	
+		
 	static int result;
 		
 	public static void main(String[] args) throws IOException{
@@ -72,11 +72,12 @@ class Solution
 				if(visited[i]) {
 					scoreSum+= ingredients[i];
 					kcalSum += kcals[i];
-					if(kcalSum<=L) {
-						result = Math.max(result,scoreSum);
+					if(kcalSum>L) {
+						return;
 					}
 				}
 			}
+			result = Math.max(result,scoreSum);
 			return;
 		}
 		
