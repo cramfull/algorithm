@@ -33,41 +33,51 @@ import java.io.*;
    이러한 상황에서도 동일하게 java Solution 명령으로 프로그램을 수행해볼 수 있습니다.
  */
 class Solution{
-		
+
+	static int N,M, maxSum;
+	static int [][] board;
+	static int [][] sumBoard;
+	
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		int TC = Integer.parseInt(br.readLine());
-		StringTokenizer str;
+		
 		for(int tc=1; tc<=TC; tc++) {
-			str = new StringTokenizer(br.readLine());
-			int N = Integer.parseInt(str.nextToken());
-			int M = Integer.parseInt(str.nextToken());
-			int [][] board = new int[N][N];
+			StringTokenizer str = new StringTokenizer(br.readLine());
+			N = Integer.parseInt(str.nextToken());
+			M = Integer.parseInt(str.nextToken());
+			maxSum = Integer.MIN_VALUE;
+			board = new int[N][N];
+			sumBoard = new int[N][N+1];
 			for(int i=0;i<N;i++) {
 				board[i] = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
 			}
-			sb.append(String.format("#%d %d",tc,calculateFlies(board, N, M))).append("\n");
+			
+			saveSumBoard();
+			
+			for(int i=0;i<=N-M;i++) {
+				for(int j=M;j<=N;j++) {
+					maxSum = Math.max(maxSum, calculateKillFlies(i,j));
+				}
+			}
+			sb.append(String.format("#%d %d", tc, maxSum)).append("\n");
 		}
 		System.out.println(sb.toString());
 	}
 	
-	static int calculateFlies(int [][] board, int N, int M) {
-		int canKillMaximum = Integer.MIN_VALUE;
-		for(int i=0;i<=N-M;i++) {
-			for(int j=0;j<=N-M;j++) {
-				canKillMaximum = Math.max(canKillMaximum, killFlies(board, i,j,M));
+	static void saveSumBoard() {
+		for(int i=0;i<N;i++) {
+			for(int j=1;j<=N;j++) {
+				sumBoard[i][j] = sumBoard[i][j-1]+board[i][j-1];
 			}
 		}
-		return canKillMaximum;
 	}
 	
-	static int killFlies(int [][] board, int x, int y, int M) {
-		int sum=0;
+	static int calculateKillFlies(int x, int y) {
+		int sum = 0;
 		for(int i=x;i<x+M;i++) {
-			for(int j=y;j<y+M;j++) {
-				sum+=board[i][j];
-			}
+			sum += sumBoard[i][y]-sumBoard[i][y-M];
 		}
 		return sum;
 	}
