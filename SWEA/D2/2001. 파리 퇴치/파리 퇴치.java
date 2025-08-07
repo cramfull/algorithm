@@ -2,16 +2,15 @@ import java.util.*;
 import java.io.*;
 
 class Solution{
-      
+         
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
         int TC = Integer.parseInt(br.readLine());
-        StringTokenizer str;
         for(int tc=1; tc<=TC; tc++) {
-            str = new StringTokenizer(br.readLine());
-            int N = Integer.parseInt(str.nextToken());
-            int M = Integer.parseInt(str.nextToken());
+        	String [] line = br.readLine().split(" ");
+        	int N = Integer.parseInt(line[0]);
+        	int M = Integer.parseInt(line[1]);
             int [][] board = new int[N][N];
             for(int i=0;i<N;i++) {
                 board[i] = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
