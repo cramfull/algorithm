@@ -33,9 +33,7 @@ import java.io.*;
    이러한 상황에서도 동일하게 java Solution 명령으로 프로그램을 수행해볼 수 있습니다.
  */
 class Solution{
-
-	static int [][] board;
-	
+		
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
@@ -45,26 +43,26 @@ class Solution{
 			str = new StringTokenizer(br.readLine());
 			int N = Integer.parseInt(str.nextToken());
 			int M = Integer.parseInt(str.nextToken());
-			board = new int[N][N];
+			int [][] board = new int[N][N];
 			for(int i=0;i<N;i++) {
 				board[i] = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
 			}
-			sb.append(String.format("#%d %d",tc,calculateFlies(N, M))).append("\n");
+			sb.append(String.format("#%d %d",tc,calculateFlies(board, N, M))).append("\n");
 		}
 		System.out.println(sb.toString());
 	}
 	
-	static int calculateFlies(int N, int M) {
+	static int calculateFlies(int [][] board, int N, int M) {
 		int canKillMaximum = Integer.MIN_VALUE;
 		for(int i=0;i<=N-M;i++) {
 			for(int j=0;j<=N-M;j++) {
-				canKillMaximum = Math.max(canKillMaximum, killFlies(i,j,M));
+				canKillMaximum = Math.max(canKillMaximum, killFlies(board, i,j,M));
 			}
 		}
 		return canKillMaximum;
 	}
 	
-	static int killFlies(int x, int y, int M) {
+	static int killFlies(int [][] board, int x, int y, int M) {
 		int sum=0;
 		for(int i=x;i<x+M;i++) {
 			for(int j=y;j<y+M;j++) {
