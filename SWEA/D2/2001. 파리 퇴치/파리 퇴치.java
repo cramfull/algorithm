@@ -3,42 +3,52 @@ import java.io.*;
 
 class Solution{
  	
-	public static void main(String[] args) throws IOException{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		int TC = Integer.parseInt(br.readLine());
-		
-		for(int tc=1; tc<=TC; tc++) {
-			StringTokenizer str = new StringTokenizer(br.readLine());
-			int N = Integer.parseInt(str.nextToken());
-			int M = Integer.parseInt(str.nextToken());
-			int maxSum = Integer.MIN_VALUE;
-			int [][] board = new int[N][N];
-			int [][]sumBoard = new int[N][N+1];
-
+    static int [][] board;
+     
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        int TC = Integer.parseInt(br.readLine());
+        StringTokenizer str;
+        for(int tc=1; tc<=TC; tc++) {
+            str = new StringTokenizer(br.readLine());
+            int N = Integer.parseInt(str.nextToken());
+            int M = Integer.parseInt(str.nextToken());
+            board = new int[N][N];
+//            for(int i=0;i<N;i++) {
+//                board[i] = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+//            }
             for(int i=0;i<N;i++) {
             	String [] line = br.readLine().split(" ");
             	for(int j=0;j<N;j++) {
             		board[i][j] = Integer.parseInt(line[j]);
             	}
             }
-			for(int i=0;i<N;i++) {
-				for(int j=1;j<=N;j++) {
-					sumBoard[i][j] = sumBoard[i][j-1]+board[i][j-1];
-				}
-			}
-			
-			for(int i=0;i<=N-M;i++) {
-				for(int j=M;j<=N;j++) {
-					int sum = 0;
-					for(int k=i;k<i+M;k++) {
-						sum+= sumBoard[k][j]-sumBoard[k][j-M];
-					}
-					maxSum = Math.max(maxSum, sum);
-				}
-			}
-			sb.append(String.format("#%d %d", tc, maxSum)).append("\n");
-		}
-		System.out.println(sb.toString());
-	}
+            
+            sb.append("#").append(tc).append(" ").append(calculateFlies(N, M)).append("\n");
+        }
+        System.out.println(sb.toString());
+    }
+     
+    
+    static int calculateFlies(int N, int M) {
+        int canKillMaximum = Integer.MIN_VALUE;
+        for(int i=0;i<=N-M;i++) {
+            for(int j=0;j<=N-M;j++) {
+                canKillMaximum = Math.max(canKillMaximum, killFlies(i,j,M));
+            }
+        }
+        return canKillMaximum;
+    }
+     
+    
+    static int killFlies(int x, int y, int M) {
+        int sum=0;
+        for(int i=x;i<x+M;i++) {
+            for(int j=y;j<y+M;j++) {
+                sum+=board[i][j];
+            }
+        }
+        return sum;
+    }
 }
