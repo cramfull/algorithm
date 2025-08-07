@@ -1,43 +1,56 @@
 import java.util.*;
 import java.io.*;
 
+/*
+ * bfs
+ * dist 배열에 해킹 가능 대수 저장 
+ * 중첩 ArrayList는 시간초과 발생 (주석 코드)
+ * -> ArrayList<Integer> [] 사용 시 통과
+ *  
+ *  이게 맞나.. 
+ */
 public class Main {
-
-	static int N, M;
-	static ArrayList<Integer> [] graph;
-	static int [] depth;
-	static boolean [] visited;
 	
+	static int N, M;
+	static int [] dist;
+	static boolean [] visited;
+//	static ArrayList<ArrayList<Integer>> graph;
+	static ArrayList<Integer> [] graph;
+
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
+		StringBuilder sb = new StringBuilder();
 		StringTokenizer str = new StringTokenizer(br.readLine());
 		N = Integer.parseInt(str.nextToken());
 		M = Integer.parseInt(str.nextToken());
+//		graph = new ArrayList<>();
 		graph = new ArrayList[N+1];
-		depth = new int [N+1];	
-		visited = new boolean[N+1];
 		
-		for(int i=0;i<N+1;i++) {
+//		for(int i=0;i<=N;i++) {
+//			graph.add(new ArrayList<>());
+//		}
+		for(int i=1;i<=N;i++) {
 			graph[i] = new ArrayList<>();
 		}
 		
 		for(int i=0;i<M;i++) {
 			str = new StringTokenizer(br.readLine());
-			int start = Integer.parseInt(str.nextToken());
 			int end = Integer.parseInt(str.nextToken());
-			graph[end].add(start);
+			int start = Integer.parseInt(str.nextToken());
+//			graph.get(start).add(end);
+			graph[start].add(end);
 		}
 		
+		dist = new int[N+1];
 		int maxValue = Integer.MIN_VALUE;
-		for(int i=1;i<N+1;i++) {
+		for(int i=1;i<=N;i++) {
 			visited = new boolean[N+1];
-			depth[i] = bfs(i);
-			maxValue = Math.max(depth[i], maxValue);
+			dist[i] = bfs(i);
+			maxValue = Math.max(dist[i], maxValue);
 		}
-		StringBuilder sb = new StringBuilder();
-		for(int i=1;i<N+1;i++) {
-			if(depth[i]==maxValue) {
+		
+		for(int i=1;i<dist.length;i++) {
+			if(dist[i]==maxValue) {
 				sb.append(i).append(" ");
 			}
 		}
@@ -45,34 +58,24 @@ public class Main {
 	}
 	
 	static int bfs(int start) {
-		int cnt = 0;
 		Queue<Integer> que = new LinkedList<>();
-		visited[start] = true;
-		cnt++;
+		int count=1;
 		que.offer(start);
+		visited[start] = true;
+		
 		while(!que.isEmpty()) {
-			int nowNode = que.poll();
-			for(int i=0;i<graph[nowNode].size();i++) {
-				int nextNode = graph[nowNode].get(i);
-				if(!visited[nextNode]) {
-					visited[nextNode] = true;
-					cnt++;
-					que.offer(nextNode);
-				}
+			int now = que.poll();
+//			for(int i=0;i<graph.get(now).size();i++) {
+//				int nxt = graph.get(now).get(i);
+			for(int i=0;i<graph[now].size(); i++) {
+				int nxt = graph[now].get(i);
+				if(visited[nxt]) continue;
+				visited[nxt] = true;
+				count++;
+				que.offer(nxt);
 			}
 		}
-		return cnt;
+		return count;
 	}
-	
 
-	
-	// 1 3
-	// 2 3
-	// 3 4,5
-	// 4
-	// 5
-	
-	// depth 구해서 []에 저장 
-	// 저장된 depth 중 가장 큰 값 찾기
-	// for문으로 해당 depth인 경우의 index+1 출력
 }
