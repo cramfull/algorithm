@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 class Solution{
-    
+      
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
@@ -30,9 +30,8 @@ class Solution{
                 }
             }
             
-            sb.append(String.format("#%d %d",tc,canKillMaximum)).append("\n");
+            sb.append("#").append(tc).append(" ").append(canKillMaximum).append("\n");
         }
         System.out.println(sb.toString());
     }
-
 }
