@@ -54,11 +54,21 @@ class Solution{
 				board[i] = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
 			}
 			
-			saveSumBoard();
+//			saveSumBoard();
+			for(int i=0;i<N;i++) {
+				for(int j=1;j<=N;j++) {
+					sumBoard[i][j] = sumBoard[i][j-1]+board[i][j-1];
+				}
+			}
 			
 			for(int i=0;i<=N-M;i++) {
 				for(int j=M;j<=N;j++) {
-					maxSum = Math.max(maxSum, calculateKillFlies(i,j));
+					int sum = 0;
+					for(int k=i;k<i+M;k++) {
+						sum+= sumBoard[k][j]-sumBoard[k][j-M];
+					}
+//					maxSum = Math.max(maxSum, calculateKillFlies(i,j));
+					maxSum = Math.max(maxSum, sum);
 				}
 			}
 			sb.append(String.format("#%d %d", tc, maxSum)).append("\n");
@@ -66,19 +76,19 @@ class Solution{
 		System.out.println(sb.toString());
 	}
 	
-	static void saveSumBoard() {
-		for(int i=0;i<N;i++) {
-			for(int j=1;j<=N;j++) {
-				sumBoard[i][j] = sumBoard[i][j-1]+board[i][j-1];
-			}
-		}
-	}
+//	static void saveSumBoard() {
+//		for(int i=0;i<N;i++) {
+//			for(int j=1;j<=N;j++) {
+//				sumBoard[i][j] = sumBoard[i][j-1]+board[i][j-1];
+//			}
+//		}
+//	}
 	
-	static int calculateKillFlies(int x, int y) {
-		int sum = 0;
-		for(int i=x;i<x+M;i++) {
-			sum += sumBoard[i][y]-sumBoard[i][y-M];
-		}
-		return sum;
-	}
+//	static int calculateKillFlies(int x, int y) {
+//		int sum = 0;
+//		for(int i=x;i<x+M;i++) {
+//			sum += sumBoard[i][y]-sumBoard[i][y-M];
+//		}
+//		return sum;
+//	}
 }
