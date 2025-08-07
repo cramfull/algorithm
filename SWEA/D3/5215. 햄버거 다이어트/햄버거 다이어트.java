@@ -32,9 +32,9 @@ import java.io.*;
    사용하는 클래스명이 Solution 이어야 하므로, 가급적 Solution.java 를 사용할 것을 권장합니다.
    이러한 상황에서도 동일하게 java Solution 명령으로 프로그램을 수행해볼 수 있습니다.
  */
-class Solution {
-	
-	static int result;
+class Solution
+{
+	static ArrayList<Integer> results;
 		
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -47,7 +47,7 @@ class Solution {
 			int L = Integer.parseInt(str.nextToken());
 			Pair [] ingredients = new Pair[N];
 			boolean [] visited = new boolean[N];
-			result = 0;
+			results = new ArrayList<>();
 			for(int i=0;i<N;i++) {
 				str = new StringTokenizer(br.readLine());
 				int T = Integer.parseInt(str.nextToken());
@@ -56,7 +56,9 @@ class Solution {
 			}
 			
 			powerSet(ingredients, visited, N, L, 0);
-
+			
+			Collections.sort(results);
+			int result = results.get(results.size()-1);
 			sb.append(String.format("#%d %d", tc, result)).append("\n");
 			
 		}
@@ -72,11 +74,12 @@ class Solution {
 					Pair ingredient = ingredients[i];
 					scoreSum+= ingredient.score;
 					kcalSum += ingredient.kcal;
-					if(kcalSum<=L) {
-						result = Math.max(result,scoreSum);
+					if(kcalSum>L) {
+						return;
 					}
 				}
 			}
+			results.add(scoreSum);
 			return;
 		}
 		
