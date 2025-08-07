@@ -34,8 +34,10 @@ import java.io.*;
  */
 class Solution
 {
-		
-	static int result;
+	
+	static int N,L,result;
+	static int [] ingredients, kcals;
+	static boolean [] visited;
 		
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -44,11 +46,11 @@ class Solution
 		StringTokenizer str;
 		for(int tc=1; tc<=TC; tc++) {
 			str = new StringTokenizer(br.readLine());
-			int N = Integer.parseInt(str.nextToken());
-			int L = Integer.parseInt(str.nextToken());
-			int [] ingredients = new int[N];
-			int [] kcals = new int[N];
-			boolean [] visited = new boolean[N];
+			N = Integer.parseInt(str.nextToken());
+			L = Integer.parseInt(str.nextToken());
+			ingredients = new int[N];
+			kcals = new int[N];
+			visited = new boolean[N];
 			result = 0;
 			for(int i=0;i<N;i++) {
 				str = new StringTokenizer(br.readLine());
@@ -56,15 +58,15 @@ class Solution
 				kcals[i]= Integer.parseInt(str.nextToken());
 			}
 			
-			powerSet(ingredients, kcals, visited, N, L, 0);
+			powerSet(0);
 
-			sb.append("#").append(tc).append(" ").append(result).append("\n");
+			sb.append(String.format("#%d %d", tc, result)).append("\n");
 			
 		}
 		System.out.println(sb.toString());
 	}
 	
-	static void powerSet(int [] ingredients, int [] kcals, boolean [] visited, int N, int L, int depth) {
+	static void powerSet(int depth) {
 		if(depth == N) {
 			int scoreSum = 0;
 			int kcalSum = 0;
@@ -82,10 +84,10 @@ class Solution
 		}
 		
 		visited[depth] = false;
-		powerSet(ingredients, kcals, visited, N, L, depth+1);
+		powerSet(depth+1);
 		
 		visited[depth] = true;
-		powerSet(ingredients, kcals, visited, N, L, depth+1);
+		powerSet(depth+1);
 	}
 	
 }
