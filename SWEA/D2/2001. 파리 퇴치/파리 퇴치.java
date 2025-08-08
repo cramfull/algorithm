@@ -17,15 +17,15 @@ class Solution{
             N = Integer.parseInt(str.nextToken());
             M = Integer.parseInt(str.nextToken());
             maxSum = Integer.MIN_VALUE;
-            board = new int[N][N];
+            board = new int[N+1][N+1];
             sumBoard = new int[N+1][N+1];
 //          for(int i=0;i<N;i++) {
 //              board[i] = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
 //          }
-            for(int i=0;i<N;i++) {
+            for(int i=1;i<=N;i++) {
                 String [] line = br.readLine().split(" ");
-                for(int j=0;j<N;j++) {
-                    board[i][j] = Integer.parseInt(line[j]);
+                for(int j=1;j<=N;j++) {
+                    board[i][j] = Integer.parseInt(line[j-1]);
                 }
             }
              
@@ -44,7 +44,7 @@ class Solution{
     static void saveSumBoard() {
         for(int i=1;i<=N;i++) {
             for(int j=1;j<=N;j++) {
-                sumBoard[i][j] = sumBoard[i-1][j]+sumBoard[i][j-1]-sumBoard[i-1][j-1]+board[i-1][j-1];
+                sumBoard[i][j] = sumBoard[i-1][j]+sumBoard[i][j-1]-sumBoard[i-1][j-1]+board[i][j];
             }
         }
     }
