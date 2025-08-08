@@ -1,17 +1,23 @@
 import java.util.*;
 import java.io.*;
 
-class Solution{
-
+/*
+ * 2차원 누적합 풀이
+ * 입력
+ * 2차원 누적합 배열 생성
+ * 영역 계산으로 max 처리  
+ */
+public class Solution {
+	 
     static int N,M, maxSum;
     static int [][] board;
     static int [][] sumBoard;
-     
+      
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
         int TC = Integer.parseInt(br.readLine());
-         
+          
         for(int tc=1; tc<=TC; tc++) {
             StringTokenizer str = new StringTokenizer(br.readLine());
             N = Integer.parseInt(str.nextToken());
@@ -28,28 +34,36 @@ class Solution{
                     board[i][j] = Integer.parseInt(line[j-1]);
                 }
             }
-             
-            saveSumBoard();
-             
+              
+//            saveSumBoard();
+            for(int i=1;i<=N;i++) {
+                for(int j=1;j<=N;j++) {
+                    sumBoard[i][j] = sumBoard[i-1][j]+sumBoard[i][j-1]-sumBoard[i-1][j-1]+board[i][j];
+                }
+            }
+            
+            
             for(int i=M;i<=N;i++) {
                 for(int j=M;j<=N;j++) {
-                    maxSum = Math.max(maxSum, calculateKillFlies(i,j));
+                	int calculateSum = sumBoard[i][j]-sumBoard[i-M][j]-sumBoard[i][j-M]+sumBoard[i-M][j-M];
+//                    maxSum = Math.max(maxSum, calculateKillFlies(i,j));
+                    maxSum = Math.max(maxSum, calculateSum);
                 }
             }
             sb.append("#").append(tc).append(" ").append(maxSum).append("\n");
         }
         System.out.println(sb.toString());
     }
-     
-    static void saveSumBoard() {
-        for(int i=1;i<=N;i++) {
-            for(int j=1;j<=N;j++) {
-                sumBoard[i][j] = sumBoard[i-1][j]+sumBoard[i][j-1]-sumBoard[i-1][j-1]+board[i][j];
-            }
-        }
-    }
-     
-    static int calculateKillFlies(int x, int y) {
-        return sumBoard[x][y]-sumBoard[x-M][y]-sumBoard[x][y-M]+sumBoard[x-M][y-M];
-    }
+      
+//    static void saveSumBoard() {
+//        for(int i=1;i<=N;i++) {
+//            for(int j=1;j<=N;j++) {
+//                sumBoard[i][j] = sumBoard[i-1][j]+sumBoard[i][j-1]-sumBoard[i-1][j-1]+board[i][j];
+//            }
+//        }
+//    }
+//      
+//    static int calculateKillFlies(int x, int y) {
+//        return sumBoard[x][y]-sumBoard[x-M][y]-sumBoard[x][y-M]+sumBoard[x-M][y-M];
+//    }
 }
