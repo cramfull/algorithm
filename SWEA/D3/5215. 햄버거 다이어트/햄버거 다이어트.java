@@ -34,7 +34,6 @@ import java.io.*;
  */
 class Solution
 {
-
 	static int N, maxKcal;
 	static int [][] ingredients;
 	
@@ -64,9 +63,12 @@ class Solution
 					if((i & 1<<j)!=0) {
 						flavorSum+=ingredients[j][0];
 						kcalSum+=ingredients[j][1];
+						if(kcalSum>maxKcal) {
+							flavorSum=0;
+							break;
+						}
 					}
 				}
-				if(kcalSum>maxKcal) continue;
 				result = Math.max(flavorSum, result);
 			}
 			sb.append("#").append(tc).append(" ").append(result).append("\n");
