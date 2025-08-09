@@ -32,60 +32,65 @@ import java.io.*;
    사용하는 클래스명이 Solution 이어야 하므로, 가급적 Solution.java 를 사용할 것을 권장합니다.
    이러한 상황에서도 동일하게 java Solution 명령으로 프로그램을 수행해볼 수 있습니다.
  */
-class Solution {
-	
-	static int N,L,result;
-	static int [] ingredients, kcals;
-	static boolean [] visited;
-		
-	public static void main(String[] args) throws IOException{
+class Solution
+{
+		static int N, maxKcal, result;
+		static int [] ingredients, kcal;
+		static int [] burger;
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
+		
 		int TC = Integer.parseInt(br.readLine());
-		StringTokenizer str;
+		
 		for(int tc=1; tc<=TC; tc++) {
-			str = new StringTokenizer(br.readLine());
+			StringTokenizer str = new StringTokenizer(br.readLine());
+			
 			N = Integer.parseInt(str.nextToken());
-			L = Integer.parseInt(str.nextToken());
+			maxKcal = Integer.parseInt(str.nextToken());
 			ingredients = new int[N];
-			kcals = new int[N];
-			visited = new boolean[N];
+			kcal = new int[N];
+			burger = new int[N];
 			result = 0;
 			for(int i=0;i<N;i++) {
 				str = new StringTokenizer(br.readLine());
 				ingredients[i] = Integer.parseInt(str.nextToken());
-				kcals[i]= Integer.parseInt(str.nextToken());
+				kcal[i] = Integer.parseInt(str.nextToken());
 			}
 			
-			powerSet(0);
-
-			sb.append(String.format("#%d %d", tc, result)).append("\n");
+			for(int i=1;i<=N;i++) {
+				burger = new int[N];
+				backTracking(i, 0, 0);
+			}
+			System.out.println("#"+tc+" "+result);
 			
 		}
-		System.out.println(sb.toString());
+
+			
 	}
 	
-	static void powerSet(int depth) {
-		if(depth == N) {
-			int scoreSum = 0;
+	
+	static void backTracking(int count, int start, int depth) {
+		if(depth == count) {
 			int kcalSum = 0;
-			for(int i=0;i<N;i++) {
-				if(visited[i]) {
-					scoreSum+= ingredients[i];
-					kcalSum += kcals[i];
-					if(kcalSum>L) {
-						return;
-					}
-				}
+			int flavorSum = 0;
+			for(int i=0;i<count;i++) {
+				kcalSum+=kcal[burger[i]];
+				flavorSum+=ingredients[burger[i]];
+//				if(kcalSum>maxKcal) {
+//					return;
+//				}
 			}
-			result = Math.max(result,scoreSum);
+			if(kcalSum<=maxKcal) {
+				result = Math.max(result, flavorSum);
+			}
+			
 			return;
 		}
 		
-		visited[depth] = false;
-		powerSet(depth+1);
-		
-		visited[depth] = true;
-		powerSet(depth+1);
-	}
+		for(int i=start;i<N;i++) {
+			burger[depth] = i;
+			backTracking(count, i+1, depth+1);
+			}
+		}
+	
 }
