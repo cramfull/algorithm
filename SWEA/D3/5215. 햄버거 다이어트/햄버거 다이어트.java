@@ -76,14 +76,11 @@ class Solution
 			for(int i=0;i<count;i++) {
 				kcalSum+=kcal[burger[i]];
 				flavorSum+=ingredients[burger[i]];
-//				if(kcalSum>maxKcal) {
-//					return;
-//				}
+				if(kcalSum>maxKcal) {
+					return;
+				}
 			}
-			if(kcalSum<=maxKcal) {
-				result = Math.max(result, flavorSum);
-			}
-			
+			result = Math.max(result, flavorSum);
 			return;
 		}
 		
