@@ -34,60 +34,44 @@ import java.io.*;
  */
 class Solution
 {
-		static int N, maxKcal, result;
-		static int [] ingredients, kcal;
-		static int [] burger;
-	public static void main(String[] args) throws IOException {
+
+	static int N, maxKcal;
+	static int [][] ingredients;
+	
+	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
+		StringBuilder sb = new StringBuilder();
 		int TC = Integer.parseInt(br.readLine());
 		
 		for(int tc=1; tc<=TC; tc++) {
-			StringTokenizer str = new StringTokenizer(br.readLine());
 			
+			StringTokenizer str = new StringTokenizer(br.readLine());
 			N = Integer.parseInt(str.nextToken());
 			maxKcal = Integer.parseInt(str.nextToken());
-			ingredients = new int[N];
-			kcal = new int[N];
-			burger = new int[N];
-			result = 0;
+			ingredients = new int [N][2];
 			for(int i=0;i<N;i++) {
 				str = new StringTokenizer(br.readLine());
-				ingredients[i] = Integer.parseInt(str.nextToken());
-				kcal[i] = Integer.parseInt(str.nextToken());
+				ingredients[i][0]=Integer.parseInt(str.nextToken());
+				ingredients[i][1]=Integer.parseInt(str.nextToken());
 			}
 			
-			for(int i=1;i<=N;i++) {
-				burger = new int[N];
-				backTracking(i, 0, 0);
-			}
-			System.out.println("#"+tc+" "+result);
+			int result = Integer.MIN_VALUE;
 			
-		}
-
-			
-	}
-	
-	
-	static void backTracking(int count, int start, int depth) {
-		if(depth == count) {
-			int kcalSum = 0;
-			int flavorSum = 0;
-			for(int i=0;i<count;i++) {
-				kcalSum+=kcal[burger[i]];
-				flavorSum+=ingredients[burger[i]];
-				if(kcalSum>maxKcal) {
-					return;
+			for(int i=0; i<(1<<N);i++) {
+				int kcalSum = 0;
+				int flavorSum = 0;
+				for(int j=0; j<N; j++) {
+					if((i & 1<<j)!=0) {
+						flavorSum+=ingredients[j][0];
+						kcalSum+=ingredients[j][1];
+					}
 				}
+				if(kcalSum>maxKcal) continue;
+				result = Math.max(flavorSum, result);
 			}
-			result = Math.max(result, flavorSum);
-			return;
+			sb.append("#").append(tc).append(" ").append(result).append("\n");
 		}
-		
-		for(int i=start;i<N;i++) {
-			burger[depth] = i;
-			backTracking(count, i+1, depth+1);
-			}
-		}
-	
+		System.out.println(sb.toString());
+	}
+
 }
