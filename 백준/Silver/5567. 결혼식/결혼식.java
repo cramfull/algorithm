@@ -30,13 +30,14 @@ public class Main {
 		}
 		
 		bfs(1);
-//		int cnt = 0;
-//		for(int i=1;i<dist.length-1;i++) {
-//			if(dist[i]>0 && dist[i]<=2) {
-//				cnt++;
-//			}
-//		}
-		System.out.println(totalCount);
+		int cnt = 0;
+		for(int i=1;i<dist.length;i++) {
+			if(dist[i]>0 && dist[i]<=2) {
+				cnt++;
+			}
+		}
+//		System.out.println(Arrays.toString(dist));
+		System.out.println(cnt);
 		
 	}
 	static void bfs(int start) {
@@ -52,10 +53,10 @@ public class Main {
 				if(visited[nxt]) continue;
 				visited[nxt] = true;
 				dist[nxt] = dist[now]+1;
-				if(dist[nxt]<=2) {
-					totalCount++;
+//				if(dist[nxt]<=2) {
+//					totalCount++;
 					que.offer(nxt);
-				}
+//				}
 			}
 		}
 	}
