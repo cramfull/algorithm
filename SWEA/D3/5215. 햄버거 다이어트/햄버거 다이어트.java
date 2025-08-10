@@ -34,47 +34,45 @@ import java.io.*;
  */
 class Solution
 {
-
-	static int N, maxKcal;
-	static int [][] ingredients;
-	
-	public static void main(String[] args) throws IOException{
+	static int N, L, result;
+	static int [][] pair;
+	public static void main(String [] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		int TC = Integer.parseInt(br.readLine());
+		int TC= Integer.parseInt(br.readLine());
 		
 		for(int tc=1; tc<=TC; tc++) {
-			
 			StringTokenizer str = new StringTokenizer(br.readLine());
 			N = Integer.parseInt(str.nextToken());
-			maxKcal = Integer.parseInt(str.nextToken());
-			ingredients = new int [N][2];
+			L = Integer.parseInt(str.nextToken());
+			result = 0;
+			pair = new int[N][2];
+			
 			for(int i=0;i<N;i++) {
 				str = new StringTokenizer(br.readLine());
-				ingredients[i][0]=Integer.parseInt(str.nextToken());
-				ingredients[i][1]=Integer.parseInt(str.nextToken());
+				pair[i][0] = Integer.parseInt(str.nextToken());
+				pair[i][1] = Integer.parseInt(str.nextToken());			
 			}
 			
-			int result = Integer.MIN_VALUE;
+			backTracking(0,0,0);
 			
-			for(int i=0; i<(1<<N);i++) {
-				int kcalSum = 0;
-				int flavorSum = 0;
-				for(int j=0; j<N; j++) {
-					if((i & 1<<j)!=0) {
-						flavorSum+=ingredients[j][0];
-						kcalSum+=ingredients[j][1];
-						if(kcalSum>maxKcal) {
-							flavorSum=0;
-							break;
-						}
-					}
-				}
-				result = Math.max(flavorSum, result);
-			}
 			sb.append("#").append(tc).append(" ").append(result).append("\n");
 		}
 		System.out.println(sb.toString());
 	}
+	
+	static void backTracking(int depth, int flavor, int kcal) {
+		if(kcal>L) {
+			return;
+		}
+		result = Math.max(result, flavor);
 
+		if(depth == N) {
+			return;
+		}
+		
+		backTracking(depth+1, flavor+pair[depth][0], kcal+pair[depth][1]);
+		
+		backTracking(depth+1, flavor, kcal);
+	}
 }
