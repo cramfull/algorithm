@@ -34,46 +34,44 @@ import java.io.*;
  */
 class Solution
 {
-	static int N, maxKcal;
-	static int [][] ingredients;
-	
-	public static void main(String[] args) throws IOException{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		int TC = Integer.parseInt(br.readLine());
-		
-		for(int tc=1; tc<=TC; tc++) {
-			
-			StringTokenizer str = new StringTokenizer(br.readLine());
-			N = Integer.parseInt(str.nextToken());
-			maxKcal = Integer.parseInt(str.nextToken());
-			ingredients = new int [N][2];
-			for(int i=0;i<N;i++) {
-				str = new StringTokenizer(br.readLine());
-				ingredients[i][0]=Integer.parseInt(str.nextToken());
-				ingredients[i][1]=Integer.parseInt(str.nextToken());
-			}
-			
-			int result = Integer.MIN_VALUE;
-			
-			for(int i=0; i<(1<<N);i++) {
-				int kcalSum = 0;
-				int flavorSum = 0;
-				for(int j=0; j<N; j++) {
-					if((i & 1<<j)!=0) {
-						flavorSum+=ingredients[j][0];
-						kcalSum+=ingredients[j][1];
-						if(kcalSum>maxKcal) {
-							flavorSum=0;
-							break;
-						}
-					}
-				}
-				result = Math.max(flavorSum, result);
-			}
-			sb.append("#").append(tc).append(" ").append(result).append("\n");
-		}
-		System.out.println(sb.toString());
-	}
-
+static int N, L, R, S;
+    static int[][] cases;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        StringBuilder sb = new StringBuilder();
+ 
+        int T = Integer.parseInt(br.readLine());
+         
+        for(int tc = 1; tc <= T; tc++) {
+            st = new StringTokenizer(br.readLine());
+            N = Integer.parseInt(st.nextToken());
+            L = Integer.parseInt(st.nextToken()); 
+            R = Integer.MIN_VALUE;
+            S = Integer.MIN_VALUE;
+             
+            cases = new int[N][2];
+             
+            for(int n = 0; n < N; n++) {
+                st = new StringTokenizer(br.readLine());
+                cases[n][0] = Integer.parseInt(st.nextToken());
+                cases[n][1] = Integer.parseInt(st.nextToken());
+            }
+             
+            backtrack(0, 0, 0);
+             
+            sb.append("#").append(tc).append(" ").append(S).append("\n");
+             
+        }
+        System.out.println(sb);
+    }
+     
+    private static void backtrack(int start, int crrCal, int crrScore) {
+        if(crrCal > L) 
+            return;
+        S = Math.max(S, crrScore);
+        for(int i = start; i < N; i++) {
+            backtrack(i+1, crrCal + cases[i][1], crrScore + cases[i][0]);
+        }
+    }
 }
