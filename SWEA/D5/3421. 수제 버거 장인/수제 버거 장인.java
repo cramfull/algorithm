@@ -54,23 +54,40 @@ class Solution
 				pair[i][1] = Integer.parseInt(str.nextToken())-1;
 			}
 			
+//			int [] pair = new int[M];
+//			for(int i=0;i<M;i++) {
+//				str = new StringTokenizer(br.readLine());
+////				pair[i]= Integer.parseInt(str.nextToken())|Integer.parseInt(str.nextToken());
+//				pair[i][0] = Integer.parseInt(str.nextToken());
+//				pair[i][1] = Integer.parseInt(str.nextToken());
+//			}
 			int cnt=0;
 			for(int i=0; i<(1<<N);i++) {
-				boolean [] visited = new boolean[N];
-				for(int j=0; j<N;j++) {
-					if((i&(1<<j))!=0) {
-						visited[j] = true;
-					}
-				}
+//				boolean [] visited = new boolean[N];
+//				StringBuilder bit = new StringBuilder();
+//				for(int j=0; j<N;j++) {
+//					if((i&(1<<j))!=0) {
+////						visited[j] = true;
+//						bit.append("1");
+//					}else {
+//						bit.append("0");
+//					}
+//				}
+//				int binary = Integer.parseInt(bit.toString(),2);
+
 				for(int k=0;k<pair.length;k++) {
-					if(visited[pair[k][0]] && visited[pair[k][1]]) {
+//					if(visited[pair[k][0]] && visited[pair[k][1]]) {
+//						cnt++;
+//						break;
+//					}
+					if( (i & 1<<(pair[k][0])) != 0 && (i & 1<<(pair[k][1])) != 0) {
 						cnt++;
 						break;
 					}
 				}
 			}
 			sb.append("#").append(tc).append(" ").append((int)Math.pow(2,N)-cnt).append("\n");
-			
+		
 		}
 		System.out.println(sb.toString());
 	}
