@@ -1,79 +1,80 @@
-
 import java.io.*;
-import java.math.*;
 import java.util.*;
+
 
 public class Main {
 	
-	static ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+	static int N, M;
+	static ArrayList<ArrayList<Integer>> graph;
 	static boolean [] visited;
-	static int connected;
-	static StringBuilder sb = new StringBuilder();
-    public static void main(String[] args) throws IOException {
-    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    	StringTokenizer str = new StringTokenizer(br.readLine());
-    	
-    	int vertex = Integer.parseInt(str.nextToken());
-    	int edge = Integer.parseInt(str.nextToken());
-    	
-    	for(int i=0;i<vertex+1; i++) {
-    		graph.add(new ArrayList<>());
-    	}
-    	
-    	for(int i=0;i<edge;i++) {
-    		str = new StringTokenizer(br.readLine());
-    		int st = Integer.parseInt(str.nextToken());
-    		int ed = Integer.parseInt(str.nextToken());
-    		
-    		graph.get(st).add(ed);
-    		graph.get(ed).add(st);
-    	}
-    	visited = new boolean[vertex+1];
-    	connected = 0;
-    	bfs(1);
-    	for(int i=2;i<graph.size();i++) {
-    		if(visited[i]) {
-    			connected++;
-    			continue;
-    		}
-    		bfs(i);
-    	}
-    	System.out.println(vertex - connected);
-    	
-    	
-    	
-    }
-    static void bfs(int start) {
-    	Queue<Integer> que = new LinkedList<>();
-    	que.offer(start);
-    	visited[start] = true;
-    	
-    	while(!que.isEmpty()) {
-    		int k = que.poll();
-    		for(int i=0; i<graph.get(k).size();i++) {
-    			int nxt = graph.get(k).get(i);
-    			
-    			if(!visited[nxt]) {
-    				visited[nxt] = true;
-    				que.offer(nxt);
-    				
-    			}
-    		}
-    		
-    		
-    	}
-    	
-    	
-    	
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+	static int [] group;
+
+	public static void main(String[] args) throws IOException {
+//		System.setIn(new FileInputStream("Test3.txt"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer str = new StringTokenizer(br.readLine());
+		
+		N = Integer.parseInt(str.nextToken());
+		M = Integer.parseInt(str.nextToken());
+		
+		graph = new ArrayList<>();
+		visited = new boolean[N+1];
+		group = new int[N+1];
+
+		for(int i=0;i<=N;i++) {
+			graph.add(new ArrayList<>());
+		}
+		
+		for(int i=0;i<M;i++) {
+			str = new StringTokenizer(br.readLine());
+			int start = Integer.parseInt(str.nextToken());
+			int end = Integer.parseInt(str.nextToken());
+			
+			graph.get(start).add(end);
+			graph.get(end).add(start);
+		}
+		
+		/*
+		 *  연결 요소가 없는 경우의 각 노드는 독립된 네트워크이다.
+		 * testcase
+		 * input 
+		 * 5 0
+		 * answer 
+		 * 5 
+		 * */
+		int result = Integer.MIN_VALUE;
+
+		if(M==0) {
+			result = N;
+		}else {
+			int cnt = 1;
+			for(int i=1;i<=N;i++) {
+				if(visited[i]) continue;
+				
+				bfs(i, cnt);
+				cnt++;
+				result = Math.max(result, group[i]);
+			}
+		}
+		System.out.println(result);	
+	}
+	
+	static void bfs(int start, int cnt) {
+		Queue<Integer> que = new LinkedList<>();
+		visited[start] = true;
+		group[start] = cnt;
+		que.offer(start);
+		
+		while(!que.isEmpty()) {
+			int now = que.poll();
+			for(int i=0;i<graph.get(now).size();i++) {
+				int nxt = graph.get(now).get(i);
+				if(visited[nxt]) continue;
+				
+				visited[nxt] = true;
+				group[nxt] = cnt;
+				que.offer(nxt);
+			}
+		}
+	}
 }
