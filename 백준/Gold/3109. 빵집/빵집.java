@@ -9,7 +9,6 @@ public class Main {
 	
 	static int R, C, result;
 	static boolean flag;
-	static String [][] board;
 	static boolean [][] visited;
 	
 	static int [] dx = {-1,0,1};
@@ -21,13 +20,17 @@ public class Main {
 		
 		R = Integer.parseInt(str.nextToken());
 		C = Integer.parseInt(str.nextToken());
-		board = new String[R][C];
 		visited = new boolean[R][C];
 		result = 0;
 		flag = false;
 		
 		for(int i=0;i<R;i++) {
-			board[i] = br.readLine().split("");
+			String line = br.readLine();
+			for(int j=0;j<C;j++) {
+				if(line.charAt(j)=='x') {
+					visited[i][j] = true;
+				}
+			}
 		}
 		
 		for(int i=0;i<R;i++) {
@@ -56,8 +59,6 @@ public class Main {
 			int ny = point.y + dy[i];
 			
 			if(nx<0 || ny<0 || nx>=R || ny>=C || visited[nx][ny]) continue;
-			
-			if(board[nx][ny].equals("x")) continue;
 			
 			visited[nx][ny] = true;
 			dfs(new Point(nx,ny));	
