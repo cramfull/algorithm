@@ -40,7 +40,7 @@ public class Main {
 	}
 
 	static void dfs(Point point) {
-		if(flag) return;		
+//		if(flag) return;		
 		if(point.y==C-1) {
 			flag = true;
 			result++;
@@ -50,6 +50,8 @@ public class Main {
 		visited[point.x][point.y] = true;
 		
 		for(int i=0;i<3;i++) {
+			if(flag) return;
+
 			int nx = point.x + dx[i];
 			int ny = point.y + dy[i];
 			
@@ -60,7 +62,6 @@ public class Main {
 			visited[nx][ny] = true;
 			dfs(new Point(nx,ny));	
 			
-			if(flag) return;
 		}
 	}
 	
