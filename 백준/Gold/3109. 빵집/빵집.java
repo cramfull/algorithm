@@ -40,7 +40,7 @@ public class Main {
 	}
 
 	static void dfs(Point point) {
-		
+		if(flag) return;		
 		if(point.y==C-1) {
 			flag = true;
 			result++;
