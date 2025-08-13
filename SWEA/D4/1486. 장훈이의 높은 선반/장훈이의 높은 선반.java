@@ -34,7 +34,6 @@ import java.io.*;
  */
 class Solution
 {
-
 	static int N, shelfHeight, result;
 	static int [] heights;
 	
@@ -54,7 +53,7 @@ class Solution
 			for(int i=0;i<N;i++) {
 				heights[i]=Integer.parseInt(str.nextToken());
 			}
-			
+			//  조합으로 부분집합 구하기. nC1+nC2+...+nCn 
 			for(int i=1;i<=N;i++) {
 				backTracking(0,i,0);
 			}
@@ -63,17 +62,22 @@ class Solution
 		System.out.println(sb.toString());
 	}
 
+	//	부분 집합을 구해가면서 합을 넘김. (k개 뽑았을 때)
 	static void backTracking(int depth, int k,int sum) {
+		// 합보다 커지면 계산후 return
 		if(sum>=shelfHeight) {
-			result = Math.min(result, Math.abs(sum-shelfHeight));
+			// 합을 넘긴 경우 차를 minValue에 저장
+			result = Math.min(result, sum-shelfHeight);
 			return;
 		}
+		// k개 뽑았다면 종료
 		if(depth==k) {
 			return;
 		}
 		
+		// 원소 선택한 경우 
 		backTracking(depth+1, k, sum + heights[depth]);
-		
+		// 원소 선택하지 않은 경우 
 		backTracking(depth+1, k, sum);
 	}
 }
