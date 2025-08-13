@@ -35,42 +35,33 @@ public class Main {
 		
 		for(int i=0;i<R;i++) {
 			flag = false;
-			dfs(new Point(i,0));
-//			if(!flag) break;
+			dfs(i,0);
 		}
 		
 		System.out.println(result);
 	}
 
-	static void dfs(Point point) {
+	static void dfs(int x, int y) {
 		if(flag) return;		
-		if(point.y==C-1) {
+		if(y==C-1) {
 			flag = true;
 			result++;
 			return;
 		}
 		
-		visited[point.x][point.y] = true;
+		visited[x][y] = true;
 		
 		for(int i=0;i<3;i++) {
 			if(flag) return;
 
-			int nx = point.x + dx[i];
-			int ny = point.y + dy[i];
+			int nx = x + dx[i];
+			int ny = y + dy[i];
 			
 			if(nx<0 || ny<0 || nx>=R || ny>=C || visited[nx][ny]) continue;
 			
 			visited[nx][ny] = true;
-			dfs(new Point(nx,ny));	
-			
+			dfs(nx,ny);	
 		}
 	}
 	
-	static class Point{
-		int x,y;
-		public Point(int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
-	}
 }
