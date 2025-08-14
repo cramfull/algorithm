@@ -74,13 +74,12 @@ class Solution
 			return;
 		}
 		
-		if(months[depth]==0) {
-			backTracking(depth+1, sum);
-		}else {
-			backTracking(depth+1, sum + months[depth]*prices[0]);
-			backTracking(depth+1, sum + prices[1]);
-			backTracking(depth+3, sum + prices[2]);
-		}	
+		if(months[depth]==0) backTracking(depth+1, sum);
+			
+        backTracking(depth+1, sum + months[depth]*prices[0]);
+        backTracking(depth+1, sum + prices[1]);
+        backTracking(depth+3, sum + prices[2]);
+		
 	}
 	
 }
