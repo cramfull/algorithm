@@ -1,30 +1,21 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
-/*
- * 선수과목
- * 
- * 위상정렬 사용
- * indegree(진입차수) 배열에 해당 정점으로 진입하는 간선의 개수를 카운트
- * que에서 offer하는 시 = 카운트 1
- * poll과 동시에 해당 카운트를 배열에 저장 
- * 
- */
 public class Main {
 
 	static int N, M;
-	static int [] indegree, result;
+	static int [] indegrees, result;
 	static ArrayList<ArrayList<Integer>> graph;
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		
 		StringTokenizer str = new StringTokenizer(br.readLine());
-		graph = new ArrayList<>();
 		N = Integer.parseInt(str.nextToken());
 		M = Integer.parseInt(str.nextToken());
-		indegree = new int[N+1];
+		graph = new ArrayList<>();
+		indegrees = new int[N+1];
 		result = new int[N+1];
 		
 		for(int i=0;i<=N;i++) {
@@ -33,12 +24,13 @@ public class Main {
 		
 		for(int i=0;i<M;i++) {
 			str = new StringTokenizer(br.readLine());
-			int start = Integer.parseInt(str.nextToken());
+			int start= Integer.parseInt(str.nextToken());
 			int end = Integer.parseInt(str.nextToken());
 			graph.get(start).add(end);
-			indegree[end]+=1;
+			indegrees[end]+=1;
 		}
-		topologySort();
+		
+		topology_sort();
 		
 		for(int i=1;i<=N;i++) {
 			sb.append(result[i]).append(" ");
@@ -46,11 +38,11 @@ public class Main {
 		System.out.println(sb.toString());
 	}
 	
-	static void topologySort() {
+	static void topology_sort() {
 		Queue<Integer> que = new LinkedList<>();
-		
+
 		for(int i=1;i<=N;i++) {
-			if(indegree[i]==0) {
+			if(indegrees[i]==0) {
 				que.offer(i);
 				result[i]=1;
 			}
@@ -58,12 +50,12 @@ public class Main {
 		
 		while(!que.isEmpty()) {
 			int now = que.poll();
-			for(int i=0;i<graph.get(now).size();i++) {
-				int nxt = graph.get(now).get(i);
-				indegree[nxt]-=1;
-				if(indegree[nxt]==0) {
-					result[nxt] = result[now]+1;
-					que.offer(nxt);
+			for(int i=0;i<graph.get(now).size(); i++) {
+				int next= graph.get(now).get(i);
+				indegrees[next]-=1;
+				if(indegrees[next]==0) {
+					que.offer(next);
+					result[next]=result[now]+1;
 				}
 			}
 		}
