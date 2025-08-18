@@ -34,67 +34,69 @@ import java.io.*;
  */
 class Solution
 {
-
-	static int N,M;
-	static boolean [] visited;
+	
+	static int N, M;
 	static ArrayList<ArrayList<Integer>> graph;
-	static ArrayList<ArrayList<Integer>> smallList;
-	static ArrayList<ArrayList<Integer>> largeList;
+	static ArrayList<ArrayList<Integer>> smallList, largeList;
 	
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
+		
 		int TC = Integer.parseInt(br.readLine());
 		
-		for(int tc=1;tc<=TC;tc++) {
+		for(int tc=1; tc<=TC; tc++) {
+			N = Integer.parseInt(br.readLine());
+			M = Integer.parseInt(br.readLine());
 			graph = new ArrayList<>();
 			smallList = new ArrayList<>();
 			largeList = new ArrayList<>();
 			
-			N = Integer.parseInt(br.readLine());
-			M = Integer.parseInt(br.readLine());
 			for(int i=0;i<=N;i++) {
 				graph.add(new ArrayList<>());
 				smallList.add(new ArrayList<>());
 				largeList.add(new ArrayList<>());
 			}
+			
 			for(int i=0;i<M;i++) {
 				StringTokenizer str = new StringTokenizer(br.readLine());
 				int start = Integer.parseInt(str.nextToken());
 				int end = Integer.parseInt(str.nextToken());
+				
 				graph.get(start).add(end);
 			}
 			
 			for(int i=1;i<=N;i++) {
-				visited = new boolean[N+1];
 				bfs(i);
 			}
 			
 			int count = 0;
 			for(int i=1;i<=N;i++) {
-				if((smallList.get(i).size()+largeList.get(i).size())==N-1) {
-					count++;
-				}
+				if(smallList.get(i).size()+largeList.get(i).size() == N-1) count++;
 			}
+			
 			sb.append("#").append(tc).append(" ").append(count).append("\n");
 		}
-		System.out.println(sb.toString());		
+		
+		System.out.println(sb.toString());
 	}
 	
 	static void bfs(int start) {
 		Queue<Integer> que = new LinkedList<>();
+		boolean [] visited = new boolean[N+1];
 		visited[start] = true;
 		que.offer(start);
 		
 		while(!que.isEmpty()) {
 			int now = que.poll();
-			for(int i=0;i<graph.get(now).size(); i++) {
+			for(int i=0;i<graph.get(now).size();i++) {
 				int next = graph.get(now).get(i);
 				if(visited[next]) continue;
+				
 				visited[next] = true;
+				que.offer(next);
 				largeList.get(start).add(next);
 				smallList.get(next).add(start);
-				que.offer(next);
 			}
 		}
 	}
