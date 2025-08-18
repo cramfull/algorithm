@@ -34,7 +34,7 @@ import java.io.*;
  */
 class Solution
 {
- 	static int N;
+ static int N;
 	static int [] trees, needWaters;
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -78,10 +78,6 @@ class Solution
 			odd+=2*n;
 		}
 		
-		if(odd>even) {
-			return odd*2-1;
-		}else {
-			return even*2; 
-		}
+		return (odd>even) ? odd*2-1 : even*2;
 	}
 }
