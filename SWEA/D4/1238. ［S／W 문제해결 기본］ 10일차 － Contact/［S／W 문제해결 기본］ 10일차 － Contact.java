@@ -33,7 +33,8 @@ import java.io.*;
    이러한 상황에서도 동일하게 java Solution 명령으로 프로그램을 수행해볼 수 있습니다.
  */
 class Solution
-{static int N, start;
+{
+   static int N, start;
 	static ArrayList<ArrayList<Integer>> graph;
 	static int [] dist;
 	static boolean [] visited;
@@ -66,8 +67,8 @@ class Solution
 			int maxCount = Integer.MIN_VALUE;
 			int maxIdx = 100;
 			bfs(start);
-			for(int i=0;i<101;i++) {
-				if(dist[i]>=maxCount) {
+			for(int i=100;i>=0;i--) {
+				if(dist[i]>maxCount) {
 					maxCount = dist[i];
 					maxIdx = i;
 				}
