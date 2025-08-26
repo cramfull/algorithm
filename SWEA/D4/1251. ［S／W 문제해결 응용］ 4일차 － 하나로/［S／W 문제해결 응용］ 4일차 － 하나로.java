@@ -39,7 +39,7 @@ class Solution
 	static int N;
 	static Land [] lands;
 	static int [] parent;
-	static ArrayList<Tunnel> tunnels;
+	static PriorityQueue<Tunnel> tunnels;
 	
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -51,7 +51,7 @@ class Solution
 			N = Integer.parseInt(br.readLine());
 			lands = new Land[N];
 			parent = new int[N];
-			tunnels = new ArrayList<>();
+			tunnels = new PriorityQueue<>();
 			result = 0;
 			
 			String [] landX = br.readLine().split(" ");
@@ -64,9 +64,7 @@ class Solution
 					tunnels.add(new Tunnel(i,j,getDistance(lands[i], lands[j])));
 				}
 			}
-			
-			Collections.sort(tunnels);
-			
+						
 			kruskal();
 			
 			sb.append("#").append(tc).append(" ").append(Math.round(result)).append("\n");
@@ -76,17 +74,28 @@ class Solution
 
 	static void kruskal() {
 		int count = 0;
-		for(int i=0;i<tunnels.size();i++) {
-			Tunnel tunnel = tunnels.get(i);
+		
+		while(count!=N-1) {
+			Tunnel tunnel = tunnels.poll();
 			
 			if(find(tunnel.start) == find(tunnel.end)) continue;
 			
 			union(tunnel.start, tunnel.end);
 			count+=1;
 			result+=tunnel.cost;
-			
-			if(count == N-1) break;
 		}
+//		
+//		for(int i=0;i<tunnels.size();i++) {
+//			Tunnel tunnel = tunnels.poll();
+//			
+//			if(find(tunnel.start) == find(tunnel.end)) continue;
+//			
+//			union(tunnel.start, tunnel.end);
+//			count+=1;
+//			result+=tunnel.cost;
+//			
+//			if(count == N-1) break;
+//		}
 	}
 	
 	static void union(int a, int b) {
