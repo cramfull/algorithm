@@ -25,7 +25,6 @@
 //System.out.println(var);		       				   // 문자열 1개 출력하는 예제
 //System.out.println(AB);		       				     // long 변수 1개 출력하는 예제
 /////////////////////////////////////////////////////////////////////////////////////////////
-import java.util.*;
 import java.io.*;
 
 /*
@@ -34,11 +33,9 @@ import java.io.*;
  */
 class Solution
 {
-
 	static int N, result;
 	static Point [] points;
 	static boolean [] visited;
-	static Point [] routes;
 	
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -49,7 +46,6 @@ class Solution
 		for(int tc=1;tc<=TC;tc++) {
 			N = Integer.parseInt(br.readLine());
 			points = new Point[N+2];
-			routes = new Point[N];
 			visited = new boolean[N+2];
 			result = Integer.MAX_VALUE;
 			String [] line = br.readLine().split(" ");
