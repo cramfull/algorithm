@@ -76,17 +76,11 @@ class Solution
 				visited = new boolean[K+1];
 				for(int i=1;i<micros.length;i++) {
 					if(i!=find(i)) continue;
-					Point point = points[i];
-					Micro micro = micros[i];
-					
 					move(i);
 				}
 				
 				for(int i=1;i<micros.length;i++) {
 					if(i!=find(i)||visited[i]) continue;
-					Point point = points[i];
-					Micro micro = micros[i];
-					
 					combine(i);
 					detectRedZone(i);
 					visited[find(i)] = true;
