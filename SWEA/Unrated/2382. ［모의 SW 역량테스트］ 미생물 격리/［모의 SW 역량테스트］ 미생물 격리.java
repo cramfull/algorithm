@@ -79,7 +79,7 @@ class Solution
 					Point point = points[i];
 					Micro micro = micros[i];
 					
-					move(point, micro);
+					move(i);
 				}
 				
 				for(int i=1;i<micros.length;i++) {
@@ -87,8 +87,8 @@ class Solution
 					Point point = points[i];
 					Micro micro = micros[i];
 					
-					combine(point, micro);
-					detectRedZone(point, micro);
+					combine(i);
+					detectRedZone(i);
 					visited[find(i)] = true;
 				}
 			}
@@ -105,14 +105,18 @@ class Solution
 		System.out.println(sb.toString());
 	}
 
-	static void detectRedZone(Point point, Micro micro) {
+	static void detectRedZone(int idx) {
+		Point point = points[idx];
+		Micro micro = micros[idx];
 		if(point.x==0 || point.x==N-1 || point.y==0 || point.y==N-1) {
 			micro.swarm/=2;
 			micro.directionIdx = (micro.directionIdx+1)%2;
 		}
 	}
 	
-	static void move(Point point, Micro micro){
+	static void move(int idx){
+		Point point = points[idx];
+		Micro micro = micros[idx];
 		point.x +=micro.direction[micro.directionIdx][0];
 		point.y +=micro.direction[micro.directionIdx][1];
 		
@@ -122,7 +126,8 @@ class Solution
 		cells.get(point).add(micro);
 	}
 	
-	static void combine(Point point, Micro micro) {
+	static void combine(int idx) {
+		Point point = points[idx];
 		PriorityQueue<Micro> pq = cells.get(point);
 		
 		Micro bigMicro = pq.poll();
