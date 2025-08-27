@@ -132,8 +132,6 @@ class Solution
 			union(bigMicro.id, other.id);
 			bigMicro.swarm += other.swarm;
 		}
-		points[bigMicro.id] = point;
-		micros[bigMicro.id] = bigMicro;
 	}
 	
 	static class Point{
