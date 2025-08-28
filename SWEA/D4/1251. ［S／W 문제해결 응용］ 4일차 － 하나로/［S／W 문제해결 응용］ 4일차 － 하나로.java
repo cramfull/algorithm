@@ -17,11 +17,10 @@ public class Solution {
         }
     }
  
- 
-    static boolean[] isVisited;
+    static boolean [] isVisited;
     static List<Edge>[] graph;
-    static int[][] islands;
-    static PriorityQueue<Edge> pq = new PriorityQueue<>((o1,o2)->(Double.compare(o1.weight, o2.weight)));
+    static int [][] islands;
+    static PriorityQueue<Edge> pq;
  
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -42,8 +41,8 @@ public class Solution {
                 isVisited[i] = false;
                 graph[i].clear();
             }
-            pq.clear();
- 
+            pq = new PriorityQueue<>((o1,o2)->(Double.compare(o1.weight, o2.weight)));
+            
             // 입력값 처리
             String [] lineX = br.readLine().split(" ");
 			String [] lineY = br.readLine().split(" ");
