@@ -33,109 +33,107 @@ import java.io.*;
    이러한 상황에서도 동일하게 java Solution 명령으로 프로그램을 수행해볼 수 있습니다.
  */
 class Solution
-{
+{	
 
-	static double E, result;
 	static int N;
-	static Land [] lands;
-	static int [] parent;
-	static PriorityQueue<Tunnel> tunnels;
+	static double E;
+	static Point [] points;
+	static boolean [] visited;
+	static double [] minEdge;
+	static ArrayList<ArrayList<Tunnel>> tunnels;
 	
-	public static void main(String[] args) throws IOException{
+	
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		
 		int TC = Integer.parseInt(br.readLine());
-
-		for(int tc=1; tc<=TC; tc++) {
+		
+		for(int tc=1;tc<=TC;tc++) {
 			N = Integer.parseInt(br.readLine());
-			lands = new Land[N];
-			parent = new int[N];
-			tunnels = new PriorityQueue<>();
-			result = 0;
-			
-			String [] landX = br.readLine().split(" ");
-			String [] landY = br.readLine().split(" ");
-			E = Double.parseDouble(br.readLine());
+			tunnels = new ArrayList<>();
 			for(int i=0;i<N;i++) {
-				parent[i]=i;
-				lands[i] = new Land(Integer.parseInt(landX[i]), Integer.parseInt(landY[i]));
+				tunnels.add(new ArrayList<>());
+			}
+			points = new Point[N];
+			visited = new boolean[N];
+			minEdge = new double[N];
+			Arrays.fill(minEdge, Double.MAX_VALUE);
+			
+			String [] lineX = br.readLine().split(" ");
+			String [] lineY = br.readLine().split(" ");
+			for(int i=0;i<N;i++) {
+				int x = Integer.parseInt(lineX[i]);
+				int y = Integer.parseInt(lineY[i]);
+				points[i] = new Point(x,y);
 				for(int j=i-1;j>=0;j--) {
-					tunnels.add(new Tunnel(i,j,getDistance(lands[i], lands[j])));
+					double distance = getDistance(points[i], points[j]);
+					tunnels.get(i).add(new Tunnel(j,distance));
+					tunnels.get(j).add(new Tunnel(i,distance));
 				}
 			}
-						
-			kruskal();
+			E = Double.parseDouble(br.readLine());
 			
-			sb.append("#").append(tc).append(" ").append(Math.round(result)).append("\n");
+			long result = Math.round(prim(0)*E);
+			
+			sb.append("#").append(tc).append(" ").append(result).append("\n");
 		}
 		System.out.println(sb.toString());
 	}
-
-	static void kruskal() {
-		int count = 0;
+	
+	static double getDistance(Point p1, Point p2) {
+		return Math.pow(p1.x-p2.x,2) + Math.pow(p1.y-p2.y,2);
+	}
+	
+	static double prim(int start) {
+		PriorityQueue<Tunnel> pq = new PriorityQueue<>((o1,o2)->(Double.compare(o1.weight, o2.weight)));
 		
-		while(count!=N-1) {
-			Tunnel tunnel = tunnels.poll();
+		double result = 0;
+		int cnt = 0;
+		
+		minEdge[start] = 0;
+		pq.offer(new Tunnel(start,0));
+		
+		while(!pq.isEmpty()) {
+			Tunnel now = pq.poll();
+			int end = now.end;
+			double weight = now.weight;
 			
-			if(find(tunnel.start) == find(tunnel.end)) continue;
+			if(visited[end]) continue;
 			
-			union(tunnel.start, tunnel.end);
-			count+=1;
-			result+=tunnel.cost;
+			visited[end] = true;
+			result+=weight;
+			cnt++;
+			
+			if(cnt==N) break;
+			
+			for(Tunnel next : tunnels.get(end)) {
+				int nxtEnd = next.end;
+				double nxtWeight = next.weight;
+				
+				if(!visited[nxtEnd] && nxtWeight < minEdge[nxtEnd]) {
+					minEdge[nxtEnd] = nxtWeight;
+					pq.offer(next);
+				}	
+			}
 		}
-//		
-//		for(int i=0;i<tunnels.size();i++) {
-//			Tunnel tunnel = tunnels.poll();
-//			
-//			if(find(tunnel.start) == find(tunnel.end)) continue;
-//			
-//			union(tunnel.start, tunnel.end);
-//			count+=1;
-//			result+=tunnel.cost;
-//			
-//			if(count == N-1) break;
-//		}
+		return result;
 	}
 	
-	static void union(int a, int b) {
-		int pA = find(a);
-		int pB = find(b);
-		
-		if(pA!=pB) parent[pB] = pA;
+	static class Tunnel{
+		int end;
+		double weight;
+		public Tunnel(int end, double weight) {
+			this.end = end;
+			this.weight = weight;
+		}
 	}
 	
-	static int find(int x) {
-		if(x==parent[x]) return x;
-		
-		return parent[x] = find(parent[x]);
-	}
-	
-	static double getDistance(Land l1, Land l2) {
-		return Math.sqrt(Math.pow(l1.x-l2.x, 2) + Math.pow(l1.y-l2.y, 2));
-	}
-	
-	static class Land{
+	static class Point{
 		int x,y;
-		public Land(int x, int y) {
+		public Point(int x, int y) {
 			this.x=x;
 			this.y=y;
-		}
-	}
-	
-	static class Tunnel implements Comparable<Tunnel>{
-		int start, end;
-		double cost;
-		
-		public Tunnel(int start, int end, double distance) {
-			this.start = start;
-			this.end = end;
-			this.cost = E * Math.pow(distance , 2); 
-		}
-		
-		@Override
-		public int compareTo(Tunnel t) {
-			return Double.compare(this.cost, t.cost);
 		}
 	}
 }
