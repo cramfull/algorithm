@@ -33,94 +33,78 @@ import java.io.*;
    이러한 상황에서도 동일하게 java Solution 명령으로 프로그램을 수행해볼 수 있습니다.
  */
 class Solution
-{		
-	static int V, E;
-	static int [] minEdge;
-	static boolean [] visited;
-	static ArrayList<ArrayList<Edge>> graph;
+{	
+	static int [] parent;
+	static PriorityQueue<Edge> pq;
 	
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		
 		int TC = Integer.parseInt(br.readLine());
 		
 		for(int tc=1;tc<=TC;tc++) {
 			StringTokenizer str = new StringTokenizer(br.readLine());
-			
-			V = Integer.parseInt(str.nextToken());
-			E = Integer.parseInt(str.nextToken());
-			
-			minEdge = new int[V+1];
-			Arrays.fill(minEdge, Integer.MAX_VALUE);
-			visited = new boolean[V+1];
-			graph = new ArrayList<>();
-			
-			
-			for(int i=0;i<V+1;i++) {
-				graph.add(new ArrayList<>());
+			int V = Integer.parseInt(str.nextToken());
+			parent = new int[V+1];
+			for(int i=1;i<=V;i++) {
+				parent[i]=i;
 			}
 			
+			pq = new PriorityQueue<>((o1, o2)-> Long.compare(o1.weight, o2.weight));
+			
+			int E = Integer.parseInt(str.nextToken());
 			for(int i=0;i<E;i++) {
 				str = new StringTokenizer(br.readLine());
 				int start = Integer.parseInt(str.nextToken());
 				int end = Integer.parseInt(str.nextToken());
 				int weight = Integer.parseInt(str.nextToken());
-				
-				graph.get(start).add(new Edge(end, weight));
-				graph.get(end).add(new Edge(start, weight));
+				pq.add(new Edge(start, end, weight));
 			}
 			
-			long result = prim(1);
-			
+			long result = kruskal(V);
 			sb.append("#").append(tc).append(" ").append(result).append("\n");
 		}
 		System.out.println(sb.toString());
 	}
 	
-	static long prim(int start) {
-		PriorityQueue<Edge> pq = new PriorityQueue<>((o1,o2)->(o1.weight-o2.weight));
-		
-		long result = 0;
+	static long kruskal(int V) {
+		long sum = 0;
 		int cnt = 0;
 		
-		minEdge[start] = 0;
-		pq.offer(new Edge(start, 0));
-		
-		while(!pq.isEmpty()) {
-			Edge now = pq.poll();
-			int end = now.end;
-			int weight = now.weight;
+		while(cnt!=V-1) {
+			Edge edge = pq.poll();
+			if(find(edge.start) == find(edge.end)) continue;
 			
-			if(visited[end]) continue;
-			
-			visited[end] = true;
-			result+=weight;
+			union(edge.start, edge.end);
 			cnt++;
-			
-			if(cnt==V) break;
-			
-			for(Edge next : graph.get(end)) {
-				int nxtEnd = next.end;
-				int nxtWeight = next.weight;
-				
-				if(!visited[nxtEnd] && nxtWeight < minEdge[nxtEnd]) {
-					minEdge[nxtEnd] = nxtWeight;
-					pq.offer(next);
-				}
-			}
+			sum+=edge.weight;
 		}
 		
-		return result;
+		return sum;
 	}
 	
-	static class Edge{
-		int end, weight;
+	static void union(int a, int b) {
+		int pA = find(a);
+		int pB = find(b);
 		
-		public Edge(int end, int weight) {
-			this.end =end;
-			this.weight =weight;
-		}
+		if(pA==pB) return;
+		
+		parent[pB] = pA;
+	}
+	
+	static int find(int x) {
+		if(x==parent[x]) return x;
+		
+		return parent[x] = find(parent[x]);
 	}
 
+	static class Edge{
+		int start, end;
+		long weight;
+		public Edge(int start, int end, long weight) {
+			this.start = start;
+			this.end = end;
+			this.weight = weight;
+		}
+	}
 }
