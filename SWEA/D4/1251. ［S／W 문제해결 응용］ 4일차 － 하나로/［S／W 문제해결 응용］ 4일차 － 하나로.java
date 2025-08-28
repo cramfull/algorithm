@@ -6,7 +6,7 @@ import java.util.PriorityQueue;
 import java.util.StringTokenizer;
  
 public class Solution {
-    static class Edge{
+    static class Edge {
         int node;
         double weight;
 
@@ -14,15 +14,14 @@ public class Solution {
             this.node = node;
             this.weight = weight;
         }
- 
     }
 
 
     static boolean[] isVisited = new boolean[1001];
     static List<Edge>[] graph = new ArrayList[1001];
     static int[][] islands = new int[1001][2];
-    static PriorityQueue<Edge> pq = new PriorityQueue<>((o1,o2)->(Double.compare(o1.weight,o2.weight)));
-    static {
+    static PriorityQueue<Edge> pq = new PriorityQueue<>((o1,o2)->(Double.compare(o1.weight, o2.weight)));
+        static {
         for(int i = 1; i <= 1000; i++) {
             graph[i] = new ArrayList<>();
         }
