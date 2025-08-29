@@ -48,6 +48,8 @@ public class Solution {
 	}
 	
 	static void permutation(int depth) {
+        if(result==0) return;
+
 		if(depth==N) {
 			copyBoard();
 			int count = Integer.MAX_VALUE;
