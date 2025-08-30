@@ -21,7 +21,7 @@ public class Solution {
 		for(int tc=1;tc<=TC;tc++) {
 			StringTokenizer str = new StringTokenizer(br.readLine());
 			nums = new ArrayList<>();
-			treeSet = new TreeSet<>((o1,o2)->(o2-o1)); 
+			treeSet = new TreeSet<>((o1,o2)->(o1-o2)); 
 			
 			N = Integer.parseInt(str.nextToken());
 			K = Integer.parseInt(str.nextToken());
@@ -37,9 +37,9 @@ public class Solution {
 			}
 			Iterator<Integer> it = treeSet.iterator();
 			int num =0;
-			for(int i=0;i<K;i++) {
+			for(int i=0;i<treeSet.size()-K+1;i++) {
 				num = it.next();
-			}
+			}			
 			
 			sb.append("#").append(tc).append(" ").append(num).append("\n");
 		}
