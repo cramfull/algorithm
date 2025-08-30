@@ -49,12 +49,11 @@ public class Solution {
 					}
 				}
 			}
-			
 			String result = "";
 					
 			playGame();
 			
-			result = (dist[D.x][D.y] != -1) ? String.valueOf(dist[D.x][D.y]) : "GAME OVER" ;
+			result = (dist[D.x][D.y] != -1) ? String.valueOf(dist[D.x][D.y]) : "GAME OVER";
 			sb.append("#").append(tc).append(" ").append(result).append("\n");
 		}
 		System.out.println(sb.toString());
@@ -63,54 +62,48 @@ public class Solution {
 	static void playGame() {
 		while(true) {
 			int size = suyeon.size();
-			
 			if(size == 0) return;
-			
-			while(size-->0) {
-				Point now = suyeon.poll();
-				if(board[now.x][now.y]=='*') continue;
-				if(now.x==D.x && now.y==D.y) return;
-				for(int i=0;i<4;i++) {
-					int nx = now.x + dx[i];
-					int ny = now.y + dy[i];
-					
-					if(nx<0 || ny<0 || nx>=N || ny>=M ) continue;
-					if(visited[nx][ny] || board[nx][ny]=='X' || board[nx][ny]=='*') continue;
-					
-					visited[nx][ny]=true;
-					dist[nx][ny]=dist[now.x][now.y]+1;
-					suyeon.add(new Point(nx,ny));
-				}
-			}
+			moveSuyeon(size);
 			
 			size = demons.size();
-			while(size-->0) {
-				Point now = demons.poll();
+			demonsHands(size);
+		}	
+	}
+	
+	static void moveSuyeon(int size) {
+		while(size-->0) {
+			Point now = suyeon.poll();
+			if(board[now.x][now.y]=='*') continue;
+			if(now.x==D.x && now.y==D.y) return;
+			for(int i=0;i<4;i++) {
+				int nx = now.x + dx[i];
+				int ny = now.y + dy[i];
 				
-				for(int i=0;i<4;i++) {
-					int nx = now.x+dx[i];
-					int ny = now.y+dy[i];
-					
-					if(nx<0 || ny<0 || nx>=N || ny>=M) continue; 
-					if(board[nx][ny] == '*' || board[nx][ny] == 'D' || board[nx][ny] == 'X') continue;
-					
-					board[nx][ny] = '*';
-					demons.add(new Point(nx,ny));
-				}
+				if(nx<0 || ny<0 || nx>=N || ny>=M ) continue;
+				if(visited[nx][ny] || board[nx][ny]=='X' || board[nx][ny]=='*') continue;
+				
+				visited[nx][ny]=true;
+				dist[nx][ny]=dist[now.x][now.y]+1;
+				suyeon.add(new Point(nx,ny));
 			}
-			
 		}
-		
-		
-		
 	}
 	
-	static void moveSuyeon() {
-		
-	}
-	
-	static void demonsHands() {
-		
+	static void demonsHands(int size) {
+		while(size-->0) {
+			Point now = demons.poll();
+			
+			for(int i=0;i<4;i++) {
+				int nx = now.x+dx[i];
+				int ny = now.y+dy[i];
+				
+				if(nx<0 || ny<0 || nx>=N || ny>=M) continue; 
+				if(board[nx][ny] == '*' || board[nx][ny] == 'D' || board[nx][ny] == 'X') continue;
+				
+				board[nx][ny] = '*';
+				demons.add(new Point(nx,ny));
+			}
+		}
 	}
 
 	static class Point{
