@@ -9,7 +9,7 @@ import java.util.*;
 public class Solution {
 
 	static int N,K;
-	static List<String> nums;
+	static List<Character> nums;
 	static TreeSet<Integer> treeSet;
 	
 	public static void main(String[] args) throws IOException{
@@ -26,9 +26,9 @@ public class Solution {
 			N = Integer.parseInt(str.nextToken());
 			K = Integer.parseInt(str.nextToken());
 			
-			String [] line = br.readLine().split("");
+			String line = br.readLine();
 			for(int i=0;i<N;i++) {
-				nums.add(line[i]);
+				nums.add(line.charAt(i));
 			}
 			
 			for(int i=0;i<N/4;i++) {
