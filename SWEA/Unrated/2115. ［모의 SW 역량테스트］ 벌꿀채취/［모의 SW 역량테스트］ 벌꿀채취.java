@@ -56,8 +56,8 @@ public class Solution {
 					int result1 = maxProfit;
 					for(int k=i;k<N;k++) {
 						for(int l=0;l<=N-M;l++) {
-//							if(i==k && (l+M-1>=j && j+M-1>=l)) continue;
-							if(i==k) continue;
+							if(i==k && (l+M-1>=j && j+M-1>=l)) continue;
+//							if(i==k) continue;
 							maxProfit=0;
 							maxAmount=0;
 							chooseHoneys(k,l,0,0,0);
