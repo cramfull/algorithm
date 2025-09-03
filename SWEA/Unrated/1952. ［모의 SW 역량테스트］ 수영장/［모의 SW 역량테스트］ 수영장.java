@@ -1,41 +1,18 @@
-/////////////////////////////////////////////////////////////////////////////////////////////
-// 기본 제공코드는 임의 수정해도 관계 없습니다. 단, 입출력 포맷 주의
-// 아래 표준 입출력 예제 필요시 참고하세요.
-// 표준 입력 예제
-// int a;
-// double b;
-// char g;
-// String var;
-// long AB;
-// a = sc.nextInt();                           // int 변수 1개 입력받는 예제
-// b = sc.nextDouble();                        // double 변수 1개 입력받는 예제
-// g = sc.nextByte();                          // char 변수 1개 입력받는 예제
-// var = sc.next();                            // 문자열 1개 입력받는 예제
-// AB = sc.nextLong();                         // long 변수 1개 입력받는 예제
-/////////////////////////////////////////////////////////////////////////////////////////////
-// 표준 출력 예제
-// int a = 0;                            
-// double b = 1.0;               
-// char g = 'b';
-// String var = "ABCDEFG";
-// long AB = 12345678901234567L;
-//System.out.println(a);                       // int 변수 1개 출력하는 예제
-//System.out.println(b); 		       						 // double 변수 1개 출력하는 예제
-//System.out.println(g);		       						 // char 변수 1개 출력하는 예제
-//System.out.println(var);		       				   // 문자열 1개 출력하는 예제
-//System.out.println(AB);		       				     // long 변수 1개 출력하는 예제
-/////////////////////////////////////////////////////////////////////////////////////////////
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-/*
-   사용하는 클래스명이 Solution 이어야 하므로, 가급적 Solution.java 를 사용할 것을 권장합니다.
-   이러한 상황에서도 동일하게 java Solution 명령으로 프로그램을 수행해볼 수 있습니다.
+/* 1일, 1달, 3달, 1년
+ * 
+ * 1일권 1달권 비교
+ * i==3부터는 3달권이랑도 비교
+ * 마지막에 1년권과 비교 
+ * 
  */
-class Solution
-{	
-	static int result;
-	static int [] prices, months;
+public class Solution {
+
+	static int D,M,M3,Y;
+	static int [] months;
+	static int [] dp;
 	
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -43,43 +20,32 @@ class Solution
 		int TC = Integer.parseInt(br.readLine());
 		
 		for(int tc=1;tc<=TC;tc++) {
-			prices = new int[4];
-			months = new int[12];
+			StringTokenizer str = new StringTokenizer(br.readLine());
+			D=Integer.parseInt(str.nextToken());
+			M=Integer.parseInt(str.nextToken());
+			M3=Integer.parseInt(str.nextToken());
+			Y=Integer.parseInt(str.nextToken());
 			
-			String [] input = br.readLine().split(" ");
-			for(int i=0;i<4;i++) {
-				prices[i] = Integer.parseInt(input[i]);
+			months = new int[13];
+			dp = new int[13];
+			String [] line = br.readLine().split(" ");
+			for(int i=1;i<=12;i++) {
+				months[i]=Integer.parseInt(line[i-1]);
 			}
-			input = br.readLine().split(" ");
-			for(int i=0;i<months.length;i++) {
-				months[i]=Integer.parseInt(input[i]);
-			}
+			solving();
 			
-			// 1년치로 초기화
-			result = prices[3];
-
-			backTracking(0,0);
-			sb.append("#").append(tc).append(" ").append(result).append("\n");
+			sb.append("#").append(tc).append(" ").append(dp[12]).append("\n");
 		}
 		System.out.println(sb.toString());
 	}
-
-	static void backTracking(int depth, int sum) {
-		if(result<=sum) {
-			return;
-		}
-		
-		if(depth>=12) {
-			result = Math.min(result, sum);
-			return;
-		}
-		
-		if(months[depth]==0) backTracking(depth+1, sum);
-			
-        backTracking(depth+1, sum + months[depth]*prices[0]);
-        backTracking(depth+1, sum + prices[1]);
-        backTracking(depth+3, sum + prices[2]);
-		
-	}
 	
+	static void solving() {
+		for(int i=1;i<=12;i++) {
+			dp[i]=Math.min(dp[i-1]+D*months[i], dp[i-1]+M);
+			if(i>=3) {
+				dp[i]=Math.min(dp[i],dp[i-3]+M3);
+			}
+		}
+		dp[12]=Math.min(dp[12],Y);
+	}
 }
