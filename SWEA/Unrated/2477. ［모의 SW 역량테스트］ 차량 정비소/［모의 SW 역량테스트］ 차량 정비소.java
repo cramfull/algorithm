@@ -126,8 +126,7 @@ public class Solution {
 
 		@Override
 		public int compareTo(Customer o) {
-			if(this.time==o.time) return receptionIDs[this.id] - receptionIDs[o.id];
-			return this.time - o.time;
+			return (this.time==o.time) ? (receptionIDs[this.id] - receptionIDs[o.id]) : this.time - o.time;
 		}
 	}
 }
