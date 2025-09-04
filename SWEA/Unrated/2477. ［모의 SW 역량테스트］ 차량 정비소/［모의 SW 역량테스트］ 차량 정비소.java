@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 
 
 public class Solution {
-	
+	static int [] receptionIDs;
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
@@ -47,7 +47,7 @@ public class Solution {
 			}
 			
 			int [] receptionCounter = new int [N+1];
-			int [] receptionIDs = new int[K+1];
+			receptionIDs = new int[K+1];
 			
 			for(int i=1;i<=K;i++) {
 				Customer prevCustomer = customers[i-1];
@@ -116,12 +116,18 @@ public class Solution {
 		System.out.println(sb.toString());
 	}
 	
-	static class Customer {
+	static class Customer implements Comparable<Customer> {
 		int id, time;
 		
 		public Customer(int id, int time) {
 			this.id = id;
 			this.time = time;
+		}
+
+		@Override
+		public int compareTo(Customer o) {
+			if(this.time==o.time) return receptionIDs[this.id] - receptionIDs[o.id];
+			return this.time - o.time;
 		}
 	}
 }
