@@ -72,13 +72,14 @@ public class Solution {
 	            }
 	             
 	        //   다 끝나고  customer의 시간으로 오름차순 정렬(같은 경우는 고객 id가 높은 순으로)
-	            Arrays.sort(customers, new Comparator<Customer>() {
-	                @Override
-	                public int compare(Customer o1, Customer o2) {
-	                    if(o1.time==o2.time) return receptionIDs[o1.id] - receptionIDs[o2.id];
-	                    return o1.time - o2.time;
-	                }
-	            });
+//	            Arrays.sort(customers, new Comparator<Customer>() {
+//	                @Override
+//	                public int compare(Customer o1, Customer o2) {
+//	                    if(o1.time==o2.time) return receptionIDs[o1.id] - receptionIDs[o2.id];
+//	                    return o1.time - o2.time;
+//	                }
+//	            });
+	            Arrays.sort(customers);
 	             
 	            int [] repairCounter = new int[M+1];
 	            int [] repairIDs = new int[K+1];
@@ -113,8 +114,7 @@ public class Solution {
 	        System.out.println(sb.toString());
 	    }
 	     
-	    static class Customer{ 
-//	    implements Comparable<Customer> {
+	    static class Customer implements Comparable<Customer> {
 	        int id, time;
 	         
 	        public Customer(int id, int time) {
@@ -122,10 +122,10 @@ public class Solution {
 	            this.time = time;
 	        }
 	 
-//	        @Override
-//	        public int compareTo(Customer o) {
-//	            if(this.time==o.time) return receptionIDs[this.id] - receptionIDs[o.id];
-//	            return this.time - o.time;
-//	        }
+	        @Override
+	        public int compareTo(Customer o) {
+	            if(this.time==o.time) return receptionIDs[this.id] - receptionIDs[o.id];
+	            return this.time - o.time;
+	        }
 	    }
 }
