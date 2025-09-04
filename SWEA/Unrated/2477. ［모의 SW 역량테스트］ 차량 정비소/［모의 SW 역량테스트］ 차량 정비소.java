@@ -47,7 +47,7 @@ public class Solution {
 			}
 			
 			int [] receptionCounter = new int [N+1];
-			int [] repairCounter = new int[M+1];
+			int [] receptionIDs = new int[K+1];
 			
 			for(int i=1;i<=K;i++) {
 				Customer prevCustomer = customers[i-1];
@@ -69,7 +69,7 @@ public class Solution {
 				}
 				
 				receptionCounter[minIdx]+=receptionTime[minIdx];
-				customer.receptionID=minIdx;
+				receptionIDs[customer.id]=minIdx;
 				customer.time+=receptionTime[minIdx]+minValue;
 			}
 			
@@ -77,11 +77,14 @@ public class Solution {
 			Arrays.sort(customers, new Comparator<Customer>() {
 				@Override
 				public int compare(Customer o1, Customer o2) {
-					if(o1.time==o2.time) return o1.receptionID - o2.receptionID;
+					if(o1.time==o2.time) return receptionIDs[o1.id] - receptionIDs[o2.id];
 					return o1.time - o2.time;
 				}
 			});
 			
+			int [] repairCounter = new int[M+1];
+			int [] repairIDs = new int[K+1];
+
 			customers[0].time=customers[1].time;
 			for(int i=1;i<=K;i++) {
 				Customer prevCustomer = customers[i-1];
@@ -103,9 +106,9 @@ public class Solution {
 				}
 				
 				repairCounter[minIdx]+=repairTime[minIdx];
-				customer.repairID=minIdx;
+				repairIDs[customer.id]=minIdx;
 				
-				if(customer.receptionID == A && customer.repairID==B) result+=customer.id;
+				if(receptionIDs[customer.id] == A && repairIDs[customer.id]==B) result+=customer.id;
 			}
 			
 			sb.append("#").append(tc).append(" ").append((result==0)? -1 : result).append("\n");
@@ -114,13 +117,11 @@ public class Solution {
 	}
 	
 	static class Customer {
-		int id, time, receptionID, repairID;
+		int id, time;
 		
 		public Customer(int id, int time) {
 			this.id = id;
 			this.time = time;
-			this.receptionID = -1;
-			this.repairID = -1;
 		}
 	}
 }
