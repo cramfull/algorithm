@@ -5,7 +5,7 @@ public class Solution {
 	
 	static int N, sumX, sumY;
 	static long results;
-	static int [][] points;
+	static Point [] points;
 	
 	public static void main(String [] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -14,7 +14,7 @@ public class Solution {
 		
 		for(int tc=1;tc<=TC;tc++) {
 			N = Integer.parseInt(br.readLine());
-			points = new int[N][2];
+			points = new Point[N];
 			sumX = 0;
 			sumY = 0;
 			results = Long.MAX_VALUE;
@@ -25,8 +25,7 @@ public class Solution {
 				int y = Integer.parseInt(str.nextToken());
 				sumX+=x;
 				sumY+=y;
-				points[i][0]=x;
-				points[i][1]=y;
+				points[i] = new Point(x,y);
 			}
 			dfs(0,0,0,0);
 			sb.append("#").append(tc).append(" ").append(results).append("\n");
@@ -44,16 +43,16 @@ public class Solution {
 		}
 		
 		for(int i=start;i<N;i++) {			
-			dfs(depth+1, i+1, x + points[i][0], y + points[i][1]);
+			dfs(depth+1, i+1, x + points[i].x, y + points[i].y);
 		}
 	}
 	
 	
-//	static class Point{
-//		int x,y;
-//		public Point(int x, int y) {
-//			this.x=x;
-//			this.y=y;
-//		}
-//	}
+	static class Point{
+		int x,y;
+		public Point(int x, int y) {
+			this.x=x;
+			this.y=y;
+		}
+	}
 }
